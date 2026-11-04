@@ -1,0 +1,15 @@
+# never upload your keys or your clan's data
+config.json
+github_token.txt
+healthcheck_url.txt
+*_latest.json
+history.json
+donations*.json
+cwl_seasons.json
+discord_state.json
+season_state.json
+push_state.json
+schedule.json
+run_log.txt
+site/
+__pycache__/

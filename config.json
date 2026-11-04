@@ -1,0 +1,14 @@
+{
+  "clanTag": "#PASTE_CLAN_TAG",
+  "apiKey": "PASTE_CLASH_API_KEY_HERE",
+  "githubUser": "PASTE_GITHUB_USERNAME",
+  "githubRepo": "PASTE_REPO_NAME",
+  "clanName": "",
+  "myPlayerName": "",
+  "leaderboardName": "🐐 Leaderboard",
+  "rallyLine": "Get your attacks in 🫡 Everyone attacks = we win.",
+  "cwlPromote": 2,
+  "cwlDemote": 2,
+  "updateMinute": 5,
+  "discordWebhook": "PASTE_DISCORD_WEBHOOK_URL_HERE"
+}
