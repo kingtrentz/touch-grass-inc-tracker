@@ -53,7 +53,7 @@ def main():
     pages = {}
     for tpl, data_file, out in (("current.html", "stats_latest.json", "index.html"), ("stats.html", "stats_latest.json", "history.html"), ("cwl.html", "cwl_latest.json", "cwl.html")):
         try:
-            html = open(P("templates", tpl), encoding="utf-8").read()
+            html = open(P("templates", tpl) if os.path.exists(P("templates", tpl)) else P(tpl), encoding="utf-8").read()   # works with or without the templates folder
             data = json.load(open(P(data_file), encoding="utf-8"))
             if out == "cwl.html":   # clan leaderboard comes from the war stats data
                 try:
