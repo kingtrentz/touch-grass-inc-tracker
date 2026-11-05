@@ -317,6 +317,21 @@ section.closed > .head.tog h2::before{transform:rotate(-45deg)}
 .mini3 small,#live .mini3 small{display:block;font-family:var(--f-mono);font-size:10px;color:var(--muted);margin-top:1px}
 </style>
 <style>
+/* path to victory (CWL) */
+.pv-head{font-size:13.5px;line-height:1.4;padding:8px 10px;border-radius:7px;border:1px solid var(--line);background:var(--panel)}
+.pv-head b{font-family:var(--f-display);font-weight:600}
+.pv-head.good{background:var(--up-soft);border-color:var(--up-line)} .pv-head.bad{background:var(--down-soft);border-color:var(--down-line)} .pv-head.mid{background:var(--live-soft);border-color:var(--live-line)}
+.pv-list{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.pv-row{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 10px;border-top:1px solid var(--line);font-size:13px}
+.pv-row:first-child{border-top:0}
+.pv-row .k{font-family:var(--f-mono);font-size:11px;color:var(--faint)}
+.pv-row .who{min-width:0;font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.pv-row .who small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);white-space:normal}
+.pv-row .gain{font-family:var(--f-mono);font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
+.pv-row .gain.up{color:var(--up)} .pv-row .gain.warn{color:var(--live)} .pv-row .gain.bad{color:var(--down)}
+.pv-row.pv-key{background:var(--gold-soft)} .pv-row.pv-key .k{color:var(--gold-ink)}
+</style>
+<style>
 /* collapsible sections */
 .head.tog{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
 .head.tog:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
@@ -360,6 +375,14 @@ section.closed > .head{padding-bottom:2px}
     <div class="war" id="live"></div>
   </section>
 
+  <section id="pv-sec" hidden>
+    <div class="head"><h2>Path to victory 🎯</h2><span class="note" id="pv-note"></span></div>
+    <div class="label" id="pv-war-l">This war</div>
+    <div id="pv-war" style="display:grid;gap:8px"></div>
+    <div class="label" style="margin-top:4px">Promotion path</div>
+    <div id="pv-promo" style="display:grid;gap:8px"></div>
+  </section>
+
   <section id="stand-sec" hidden>
     <div class="head"><h2>Standings</h2><span class="note">Projection = current + pace on live wars + avg per remaining war</span></div>
     <div class="tbl-wrap"><table>
@@ -400,7 +423,7 @@ section.closed > .head{padding-bottom:2px}
 </div>
 
 <script>
-const SNAPSHOT = {"me":"Touch Grass Inc","league":"Champion League II","offSeason":false,"season":"2026-11-02","groupState":"inWar","roster":15,"totalRounds":7,"promote":2,"demote":2,"clans":["Red Force","Royal Clasher","*Dragon Rider*","Ecuador unido","Touch Grass Inc","Canadiens Habs","REAL SEA","這個部落沒有人"],"myWar":{"round":2,"opponent":"*Dragon Rider*","endTime":"2026-11-05T05:10:15+00:00","roster":15,"done":14,"pending":[{"n":"Back9Chris","th":18,"pos":15}]},"dest":{"Red Force":2837,"Royal Clasher":2865,"*Dragon Rider*":3000,"Ecuador unido":2145,"Touch Grass Inc":2752,"Canadiens Habs":2944,"REAL SEA":2776,"這個部落沒有人":2349},"rounds":[{"n":1,"wars":[{"a":"Red Force","b":"Touch Grass Inc","aStars":39,"bStars":42,"aAtk":15,"bAtk":15,"status":"final","winner":"Touch Grass Inc","aDestPct":97.2,"bDestPct":96.53},{"a":"*Dragon Rider*","b":"Canadiens Habs","aStars":45,"bStars":41,"aAtk":15,"bAtk":15,"status":"final","winner":"*Dragon Rider*","aDestPct":100.0,"bDestPct":96.87},{"a":"Ecuador unido","b":"REAL SEA","aStars":37,"bStars":39,"aAtk":14,"bAtk":14,"status":"final","winner":"REAL SEA","aDestPct":89.67,"bDestPct":92.07},{"a":"Royal Clasher","b":"這個部落沒有人","aStars":40,"bStars":44,"aAtk":15,"bAtk":15,"status":"final","winner":"這個部落沒有人","aDestPct":96.73,"bDestPct":99.33}]},{"n":2,"wars":[{"a":"Red Force","b":"這個部落沒有人","aStars":40,"bStars":25,"aAtk":14,"bAtk":9,"status":"live","winner":"","aDestPct":91.93,"bDestPct":57.27},{"a":"Royal Clasher","b":"Ecuador unido","aStars":40,"bStars":24,"aAtk":15,"bAtk":8,"status":"live","winner":"","aDestPct":94.27,"bDestPct":53.33},{"a":"*Dragon Rider*","b":"Touch Grass Inc","aStars":45,"bStars":33,"aAtk":15,"bAtk":14,"status":"live","winner":"","aDestPct":100.0,"bDestPct":86.93},{"a":"Canadiens Habs","b":"REAL SEA","aStars":43,"bStars":41,"aAtk":15,"bAtk":14,"status":"live","winner":"","aDestPct":99.4,"bDestPct":93.0}]},{"n":3,"wars":[{"a":"Red Force","b":"Royal Clasher","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"*Dragon Rider*","b":"Ecuador unido","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"Touch Grass Inc","b":"Canadiens Habs","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"REAL SEA","b":"這個部落沒有人","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0}]},{"n":4,"wars":[]},{"n":5,"wars":[]},{"n":6,"wars":[]},{"n":7,"wars":[]}],"updated":"Nov 4, 7:05 PM CT","updatedISO":"2026-11-05T01:05:05+00:00","source":"api","status":{"api":"ok","checked":"2026-11-05T01:05:08+00:00"},"board":{"season":"2026-11-02","wars":2,"cols":["n","th","wars","att","s","tri","avgD","miss","mvps","given","net"],"rows":[["TheMeade",18,2,2,6,2,100.0,0,0,2.5,6],["RKellyPeesOnU",18,2,2,6,2,100.0,0,0,2.5,6],["Dre",18,2,2,6,2,100.0,0,0,3.0,6],["joey",18,2,2,6,2,100.0,0,0,3.0,6],["Sir Travis",18,2,2,6,2,100.0,0,0,3.0,6],["Justin",18,2,2,5,1,93.5,0,1,2.0,5],["Chase",18,2,2,5,1,90.0,0,0,2.5,5],["NICK™",18,2,2,5,1,99.5,0,0,3.0,5],["mohit",18,2,2,5,1,95.0,0,0,3.0,5],["Red Legion",18,2,2,5,1,95.5,0,0,3.0,5],["Bailey",18,2,2,5,1,97.0,0,0,3.0,5],["Hazey Trees",18,2,2,4,0,94.5,0,0,2.5,4],["Radii",18,2,2,4,0,82.5,0,0,3.0,4],["Agent 33",18,2,2,4,0,78.5,0,0,3.0,4],["Back9Chris",18,2,1,3,1,100.0,0,0,3.0,3]]},"cur":{"kind":"cwl","round":2,"state":"inWar","start":"2026-11-04T04:45:47+00:00","end":"2026-11-05T05:10:15+00:00"},"curNext":{"kind":"cwl","round":3,"start":"2026-11-05T05:16:44+00:00","opp":"Canadiens Habs"}};
+const SNAPSHOT = {"me":"Touch Grass Inc","league":"Champion League II","offSeason":false,"season":"2026-11-02","groupState":"inWar","roster":15,"totalRounds":7,"promote":2,"demote":2,"clans":["Red Force","Royal Clasher","*Dragon Rider*","Ecuador unido","Touch Grass Inc","Canadiens Habs","REAL SEA","這個部落沒有人"],"myWar":{"round":2,"opponent":"*Dragon Rider*","endTime":"2026-11-05T05:10:15+00:00","roster":15,"done":14,"pending":[{"n":"Back9Chris","th":18,"pos":15}]},"dest":{"Red Force":2837,"Royal Clasher":2865,"*Dragon Rider*":3000,"Ecuador unido":2145,"Touch Grass Inc":2752,"Canadiens Habs":2944,"REAL SEA":2776,"這個部落沒有人":2349},"rounds":[{"n":1,"wars":[{"a":"Red Force","b":"Touch Grass Inc","aStars":39,"bStars":42,"aAtk":15,"bAtk":15,"status":"final","winner":"Touch Grass Inc","aDestPct":97.2,"bDestPct":96.53},{"a":"*Dragon Rider*","b":"Canadiens Habs","aStars":45,"bStars":41,"aAtk":15,"bAtk":15,"status":"final","winner":"*Dragon Rider*","aDestPct":100.0,"bDestPct":96.87},{"a":"Ecuador unido","b":"REAL SEA","aStars":37,"bStars":39,"aAtk":14,"bAtk":14,"status":"final","winner":"REAL SEA","aDestPct":89.67,"bDestPct":92.07},{"a":"Royal Clasher","b":"這個部落沒有人","aStars":40,"bStars":44,"aAtk":15,"bAtk":15,"status":"final","winner":"這個部落沒有人","aDestPct":96.73,"bDestPct":99.33}]},{"n":2,"wars":[{"a":"Red Force","b":"這個部落沒有人","aStars":40,"bStars":25,"aAtk":14,"bAtk":9,"status":"live","winner":"","aDestPct":91.93,"bDestPct":57.27},{"a":"Royal Clasher","b":"Ecuador unido","aStars":40,"bStars":24,"aAtk":15,"bAtk":8,"status":"live","winner":"","aDestPct":94.27,"bDestPct":53.33},{"a":"*Dragon Rider*","b":"Touch Grass Inc","aStars":45,"bStars":33,"aAtk":15,"bAtk":14,"status":"live","winner":"","aDestPct":100.0,"bDestPct":86.93},{"a":"Canadiens Habs","b":"REAL SEA","aStars":43,"bStars":41,"aAtk":15,"bAtk":14,"status":"live","winner":"","aDestPct":99.4,"bDestPct":93.0}]},{"n":3,"wars":[{"a":"Red Force","b":"Royal Clasher","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"*Dragon Rider*","b":"Ecuador unido","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"Touch Grass Inc","b":"Canadiens Habs","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"REAL SEA","b":"這個部落沒有人","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0}]},{"n":4,"wars":[]},{"n":5,"wars":[]},{"n":6,"wars":[]},{"n":7,"wars":[]}],"updated":"Nov 5, 1:09 AM CT","updatedISO":"2026-11-05T01:09:09+00:00","source":"api","status":{"api":"ok","checked":"2026-11-05T01:09:13+00:00"},"board":{"season":"2026-11-02","wars":2,"cols":["n","th","wars","att","s","tri","avgD","miss","mvps","given","net"],"rows":[["TheMeade",18,2,2,6,2,100.0,0,0,2.5,6],["RKellyPeesOnU",18,2,2,6,2,100.0,0,0,2.5,6],["Dre",18,2,2,6,2,100.0,0,0,3.0,6],["joey",18,2,2,6,2,100.0,0,0,3.0,6],["Sir Travis",18,2,2,6,2,100.0,0,0,3.0,6],["Justin",18,2,2,5,1,93.5,0,1,2.0,5],["Chase",18,2,2,5,1,90.0,0,0,2.5,5],["NICK™",18,2,2,5,1,99.5,0,0,3.0,5],["mohit",18,2,2,5,1,95.0,0,0,3.0,5],["Red Legion",18,2,2,5,1,95.5,0,0,3.0,5],["Bailey",18,2,2,5,1,97.0,0,0,3.0,5],["Hazey Trees",18,2,2,4,0,94.5,0,0,2.5,4],["Radii",18,2,2,4,0,82.5,0,0,3.0,4],["Agent 33",18,2,2,4,0,78.5,0,0,3.0,4],["Back9Chris",18,2,1,3,1,100.0,0,0,3.0,3]]},"cur":{"kind":"cwl","round":2,"state":"inWar","start":"2026-11-04T04:45:47+00:00","end":"2026-11-05T05:10:15+00:00"},"curFull":{"id":"C-2026-11-02-#8RPVY0JL9","kind":"cwl","round":2,"state":"inWar","opp":"*Dragon Rider*","size":15,"apm":1,"us":{"s":33,"d":86.93,"a":14},"them":{"n":"*Dragon Rider*","tag":"#L8YPY2CQ","s":45,"d":100.0,"a":15},"end":"2026-11-05T05:10:15+00:00","start":"2026-11-04T04:45:47+00:00","pending":[{"n":"Back9Chris","th":18,"left":1,"rank":13,"tri":100}],"openBases":[[1,18,2],[2,18,2],[3,18,2],[4,18,2],[6,18,2],[8,18,2],[10,18,2],[11,18,2],[12,18,2],[13,18,0]],"usAvgAtk":2.36,"themAvgAtk":3.0,"attacksLeft":1,"usTH":{"18":15},"oppTH":{"18":15}},"cwlRates":{"Red Force":2.6,"Touch Grass Inc":2.8,"*Dragon Rider*":3.0,"Canadiens Habs":2.733,"Ecuador unido":2.643,"REAL SEA":2.786,"Royal Clasher":2.667,"這個部落沒有人":2.933},"curNext":{"kind":"cwl","round":3,"start":"2026-11-05T05:16:44+00:00","opp":"Canadiens Habs"}};
 let ME = SNAPSHOT.me || "Touch Grass Inc";
 let state = structuredClone(SNAPSHOT), db = null, docRef = null, editing = null, saving = false, canWrite = false;
 const $ = id => document.getElementById(id);
@@ -433,7 +456,7 @@ function compute(s){
       const win = warWinner(w);
       if(win===w.a){A.bonus+=10;A.w++;B.l++;} else if(win===w.b){B.bonus+=10;B.w++;A.l++;}
     } else if(w.status==="live"){
-      const pa = pace(w.aStars,w.aAtk,roster), pb = pace(w.bStars,w.bAtk,roster);
+      const pa = projFinal(w.aStars,w.aAtk,roster,1,cwlRate(s,w.a)), pb = projFinal(w.bStars,w.bAtk,roster,1,cwlRate(s,w.b));
       A.liveProj += pa - w.aStars; B.liveProj += pb - w.bStars;
       if(pa>pb) A.liveBonusExp+=10; else if(pb>pa) B.liveBonusExp+=10; else {A.liveBonusExp+=5;B.liveBonusExp+=5;}
       liveWars.push({r,w,pa,pb});
@@ -517,6 +540,7 @@ function render(){
 
   // clan leaderboard (this CWL)
   renderBoard();
+  renderPath();
 
   // rounds
   $("rounds-sec").hidden=false;
@@ -582,6 +606,68 @@ function projFinal(s,a,n,apm,prior){ const k=6, use=0.975, r=(s+k*prior)/(a+k); 
 function cwlRate(s,name){ let st=0,at=0;
   (s.rounds||[]).forEach(r=>(r.wars||[]).forEach(w=>{ if(w.status!=="final") return; if(w.a===name){st+=w.aStars;at+=w.aAtk;} if(w.b===name){st+=w.bStars;at+=w.bAtk;} }));
   return at?st/at:2.6; }
+/* ---------- path to victory: this war + promotion path ---------- */
+function pvThisWar(s){
+  const c=s.curFull;
+  if(!c||c.kind!=="cwl"||c.state!=="inWar"||!(c.pending||[]).length) return "";
+  const pu=projFinal(c.us.s,c.us.a??0,c.size,1,cwlRate(s,ME)), pt=projFinal(c.them.s,c.them.a??0,c.size,1,cwlRate(s,c.opp));
+  const left=c.attacksLeft??0, need=Math.max(0,pt+1-c.us.s);
+  const open=(c.openBases||[]).map(([pos,th,best])=>({pos,th,best,gain:3-best}));
+  const onTable=open.reduce((x,b)=>x+b.gain,0);
+  const hitters=[]; (c.pending||[]).forEach(p=>{ for(let k=0;k<(p.left||1);k++) hitters.push(p); });
+  hitters.sort((a,b)=>(b.th-a.th)||((b.tri??0)-(a.tri??0))||(a.rank-b.rank));
+  const pool=[...open], plan=[];
+  for(const h of hitters){
+    const pick=ok=>{ let bi=-1; pool.forEach((b,j)=>{ if(b.gain>0&&ok(b)&&(bi<0||b.gain>pool[bi].gain||(b.gain===pool[bi].gain&&b.pos<pool[bi].pos))) bi=j; }); return bi; };
+    let i=pick(b=>(b.th??0)<=h.th); if(i<0) i=pick(()=>true);
+    if(i<0){ plan.push({h,b:null}); continue; } plan.push({h,b:pool[i]}); pool.splice(i,1);
+  }
+  const maxGain=plan.reduce((x,p)=>x+(p.b?p.b.gain:0),0), per=left?need/left:0;
+  let head, cls;
+  if(need===0){ cls="good"; head=`<b>We're on track.</b> Projected ${pu}–${pt}. Use every attack, a sure 2★ beats a failed triple.`; }
+  else if(maxGain<need){ cls="bad"; head=`<b>Long shot.</b> We need <b>${need}★</b> more to pass their projected ${pt}, and the best case is +${maxGain}★. Push max destruction, it decides ties.`; }
+  else { cls=per>2.2?"bad":per>1.6?"mid":"good"; head=`<b>We need ${need}★ from ${left} attack${left===1?"":"s"}</b> (about ${per.toFixed(1)}★ per hit) to pass their projected ${pt}. ${onTable}★ still on the table.`; }
+  const rows=plan.slice(0,10).map((p,i)=>{ const key=p.b&&p.b.gain>=2&&(p.h.tri??0)>=60;
+    const tgt=p.b?`→ #${p.b.pos}${p.b.th?" TH"+p.b.th:""} (${p.b.best}★ so far)`:"→ cleanup / max %", tri=p.h.tri!=null?` · ${p.h.tri}% triple rate`:"";
+    return `<div class="pv-row ${key?"pv-key":""}"><span class="k">${key?"★":i+1}</span><span class="who">${lbLink(p.h.n)} <span class="note">TH${esc(p.h.th)}</span><small>${esc(tgt+tri)}</small></span><span class="gain up">${p.b?"+"+p.b.gain+"★":"%"}</span></div>`; }).join("");
+  return `<div class="pv-head ${cls}">${head}</div>${rows?`<div class="pv-list">${rows}</div><div class="note">★ = key hit: a base worth 2★+ and a hitter who triples often. A guide, not orders.</div>`:""}`;
+}
+function pvPromo(s){
+  const {rows}=compute(s), up=s.promote??2, roster=s.roster||30, me=rows.find(r=>r.clan===ME); if(!me) return "";
+  const others=rows.filter(r=>r.clan!==ME).sort((a,b)=>b.proj-a.proj), bar=others[up-1]; if(!bar) return "";
+  const ord=n=>n+(["th","st","nd","rd"][(n%100>10&&n%100<14)?0:n%10]||"th");
+  const live=me.played>me.finals, myLeft=me.remaining;
+  const barMax=bar.total+(bar.remaining+(bar.played>bar.finals?1:0))*(3*roster+10);
+  const meMax=me.total+(myLeft+(live?1:0))*(3*roster+10);
+  const fromLive=me.liveProj+me.liveBonusExp, need=Math.ceil(bar.proj+1-(me.total+fromLive));
+  const per=myLeft?need/myLeft:null, avgB=me.finals?(me.finalStars+10*me.w)/me.finals:null;
+  let head, cls;
+  if(me.total>barMax){ cls="good"; head=`<b>Promotion locked 🔒</b> No clan outside the top ${up} can catch us anymore.`; }
+  else if(meMax<=bar.proj){ cls="bad"; head=`<b>Promotion is out of reach</b> unless ${nm(bar.clan)} slips badly. Projected finish: ${ord(me.projPos)}.`; }
+  else if(!myLeft){ cls=me.projPos<=up?"good":"bad"; head=`<b>Last round.</b> Projected to finish ${ord(me.projPos)}. ${me.projPos<=up?"Hold on and we promote.":"We need this war and help from others."}`; }
+  else if(need<=0){ cls="good"; head=`<b>On pace to promote</b> (projected ${ord(me.projPos)}). Even average wars keep us ahead of ${nm(bar.clan)}, so just don't drop a round.`; }
+  else { cls=(avgB!=null&&per<=avgB)?"good":(avgB!=null&&per<=avgB+8)?"mid":"bad";
+    head=`<b>To finish top ${up}</b> we need about <b>${Math.round(per)}★ per war</b> (stars + 10 per win) over our last ${myLeft} war${myLeft===1?"":"s"} to stay ahead of ${nm(bar.clan)}${avgB!=null?`. We've been averaging ${Math.round(avgB)}`:""}.`; }
+  // remaining schedule, and how much each one matters
+  const rank=Object.fromEntries(rows.map(r=>[r.clan,r])), rival=c=>rank[c]&&(rank[c].projPos<=up+1||c===bar.clan);
+  const sched=(s.rounds||[]).flatMap(r=>(r.wars||[]).filter(w=>(w.a===ME||w.b===ME)&&w.status!=="final").map(w=>({n:r.n,live:w.status==="live",opp:w.a===ME?w.b:w.a})));
+  const rowsH=sched.map(x=>{ const o=rank[x.opp]||{}, rv=rival(x.opp), edge=(avgB!=null&&o.avg!=null)?Math.round((me.avg-o.avg)):null;
+    const why=rv?"promotion rival: a win here is a 20★ swing (our +10, their 0)":edge!=null?(edge>=3?`we average ${edge}★ more per war`:edge<=-3?`they average ${-edge}★ more per war`:"even on form"):"no form yet";
+    let tag=rv?"must win":edge!=null&&edge<=-3?"tough":"should win", whyL=why;
+    const c=s.curFull;   // the live round follows the live projection, not season form
+    if(x.live&&c&&c.kind==="cwl"&&c.state==="inWar"&&c.opp===x.opp){
+      const pu=projFinal(c.us.s,c.us.a??0,c.size,1,cwlRate(s,ME)), pt=projFinal(c.them.s,c.them.a??0,c.size,1,cwlRate(s,c.opp));
+      tag=pu>pt?(rv?"must win · ahead":"on track"):pu===pt?"coin flip":(rv?"must win · behind":"behind"); whyL=`projected ${pu}–${pt}${rv?" · promotion rival":""}`; }
+    return `<div class="pv-row ${rv?"pv-key":""}"><span class="k">R${x.n}</span><span class="who">vs ${nm(x.opp)}<small>${x.live?"live now · ":""}${o.pos?ord(o.pos)+" now, projected "+ord(o.projPos):""} · ${esc(whyL)}</small></span><span class="gain ${/behind|must win/.test(tag)?"bad":/tough|coin/.test(tag)?"warn":"up"}">${tag}</span></div>`; }).join("");
+  return `<div class="pv-head ${cls}">${head}</div>${rowsH?`<div class="pv-list">${rowsH}</div><div class="note">Projections use each clan's stars per attack this season and live pace. Rival = projected top ${up+1} or the clan we're racing.</div>`:""}`;
+}
+function renderPath(){
+  const s=state, sec=$("pv-sec"); if(!s||!s.rounds) { sec.hidden=true; return; }
+  const w=pvThisWar(s), p=pvPromo(s);
+  sec.hidden=!(w||p);
+  $("pv-war-l").hidden=!w; $("pv-war").innerHTML=w; $("pv-promo").innerHTML=p;
+  $("pv-note").textContent=s.curFull&&s.curFull.kind==="cwl"&&s.curFull.state==="inWar"?`R${s.curFull.round} live`:"";
+}
 function renderBoard(){
   const b=state&&state.board, sec=$("lb-sec");
   if(!(b&&b.rows&&b.rows.length)){ sec.hidden=true; return; }
