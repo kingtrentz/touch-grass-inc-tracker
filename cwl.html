@@ -360,6 +360,15 @@ section.closed > .head.tog h2::before{transform:rotate(-45deg)}
 .chip.more-chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 </style>
 <style>
+/* war log toggle */
+.seg{display:flex;gap:6px}
+.seg-b{font:inherit;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--line-strong);background:var(--bg);color:var(--blue-ink);border-radius:999px;padding:4px 11px}
+.seg-b[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.seg-b:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+/* rounds: our war first, tap for the rest */
+.rnd-tog{font:inherit;font-family:var(--f-mono);font-size:11px;font-weight:600;border:1px dashed var(--line-strong);background:var(--bg);color:var(--blue-ink);border-radius:999px;padding:2px 9px;cursor:pointer}
+</style>
+<style>
 /* collapsible sections */
 .head.tog{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
 .head.tog:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
@@ -412,17 +421,14 @@ section.closed > .head{padding-bottom:2px}
   </section>
 
   <section id="atk-sec" hidden>
-    <div class="head"><h2>Recent attacks ⚔️</h2><span class="note" id="atk-note"></span></div>
+    <div class="head"><h2>War log ⚔️</h2><span class="note" id="atk-note"></span></div>
+    <div class="seg" role="group" aria-label="War log view"><button type="button" class="seg-b" data-seg="atk" aria-pressed="true">Attacks</button><button type="button" class="seg-b" data-seg="def" aria-pressed="false">Defenses</button></div>
     <div id="atk"></div>
-  </section>
-
-  <section id="def-sec" hidden>
-    <div class="head"><h2>Recent defenses 🛡️</h2><span class="note" id="def-note"></span></div>
-    <div id="def"></div>
+    <div id="def" hidden></div>
   </section>
 
   <section id="stand-sec" hidden>
-    <div class="head"><h2>Standings</h2><span class="note">Promote = chance to finish top 2</span></div>
+    <div class="head"><h2>Standings</h2><span class="note">top 2 promote</span></div>
     <div class="tbl-wrap"><table>
       <thead><tr><th>#</th><th>Clan</th><th>Stars</th><th>W–L</th><th>Dest.</th><th>Avg/war</th><th>Promote</th></tr></thead>
       <tbody id="stand"></tbody>
@@ -457,11 +463,11 @@ section.closed > .head{padding-bottom:2px}
     <div class="row" style="margin-top:10px"><button class="primary" id="dest-save">Save totals</button></div>
   </details>
 
-  <footer><span>Live data: official Clash of Clans API</span><span class="sig">Touch Grass Inc Tracker by <a href="https://github.com/kingtrentz/touch-grass-inc-tracker" target="_blank" rel="noopener"><b>kingtrents</b>⚡️ x claude</a> 🫡</span><span class="legal">This material is unofficial and is not endorsed by Supercell. For more information see <a href="https://supercell.com/fan-content-policy" target="_blank" rel="noopener">Supercell's Fan Content Policy</a>.</span></footer>
+  <footer><span class="sig">Clash of Clans API data · Touch Grass Inc Tracker by <a href="https://github.com/kingtrentz/touch-grass-inc-tracker" target="_blank" rel="noopener"><b>kingtrents</b>⚡️ x claude</a> 🫡</span><span class="legal">This material is unofficial and is not endorsed by Supercell. For more information see <a href="https://supercell.com/fan-content-policy" target="_blank" rel="noopener">Supercell's Fan Content Policy</a>.</span></footer>
 </div>
 
 <script>
-const SNAPSHOT = {"me":"Touch Grass Inc","league":"Champion League II","offSeason":false,"season":"2026-11-02","groupState":"inWar","roster":15,"totalRounds":7,"promote":2,"demote":2,"clans":["Red Force","Royal Clasher","*Dragon Rider*","Ecuador unido","Touch Grass Inc","Canadiens Habs","REAL SEA","這個部落沒有人"],"myWar":{"round":3,"opponent":"Canadiens Habs","endTime":"2026-11-06T05:16:44+00:00","roster":15,"done":10,"pending":[{"n":"Radii","th":18,"pos":2},{"n":"TheMeade","th":18,"pos":6},{"n":"joey","th":18,"pos":10},{"n":"Bailey","th":18,"pos":14},{"n":"Sir Travis","th":18,"pos":18}]},"dest":{"Red Force":4237,"Royal Clasher":3978,"*Dragon Rider*":3500,"Ecuador unido":3373,"Touch Grass Inc":3847,"Canadiens Habs":4035,"REAL SEA":4209,"這個部落沒有人":4430},"rounds":[{"n":1,"wars":[{"a":"Red Force","b":"Touch Grass Inc","aStars":39,"bStars":42,"aAtk":15,"bAtk":15,"status":"final","winner":"Touch Grass Inc","aDestPct":97.2,"bDestPct":96.53},{"a":"*Dragon Rider*","b":"Canadiens Habs","aStars":45,"bStars":41,"aAtk":15,"bAtk":15,"status":"final","winner":"*Dragon Rider*","aDestPct":100.0,"bDestPct":96.87},{"a":"Ecuador unido","b":"REAL SEA","aStars":37,"bStars":39,"aAtk":14,"bAtk":14,"status":"final","winner":"REAL SEA","aDestPct":89.67,"bDestPct":92.07},{"a":"Royal Clasher","b":"這個部落沒有人","aStars":40,"bStars":44,"aAtk":15,"bAtk":15,"status":"final","winner":"這個部落沒有人","aDestPct":96.73,"bDestPct":99.33}]},{"n":2,"wars":[{"a":"Red Force","b":"這個部落沒有人","aStars":43,"bStars":43,"aAtk":15,"bAtk":15,"status":"final","winner":"Red Force","aDestPct":98.6,"bDestPct":97.27},{"a":"Royal Clasher","b":"Ecuador unido","aStars":40,"bStars":37,"aAtk":15,"bAtk":13,"status":"final","winner":"Royal Clasher","aDestPct":94.27,"bDestPct":84.27},{"a":"*Dragon Rider*","b":"Touch Grass Inc","aStars":45,"bStars":36,"aAtk":15,"bAtk":15,"status":"final","winner":"*Dragon Rider*","aDestPct":100.0,"bDestPct":93.6},{"a":"Canadiens Habs","b":"REAL SEA","aStars":43,"bStars":44,"aAtk":15,"bAtk":15,"status":"final","winner":"REAL SEA","aDestPct":99.4,"bDestPct":99.67}]},{"n":3,"wars":[{"a":"Red Force","b":"Royal Clasher","aStars":39,"bStars":31,"aAtk":13,"bAtk":12,"status":"live","winner":"","aDestPct":86.67,"bDestPct":74.2},{"a":"*Dragon Rider*","b":"Ecuador unido","aStars":15,"bStars":21,"aAtk":5,"bAtk":8,"status":"live","winner":"","aDestPct":33.33,"bDestPct":50.93},{"a":"Touch Grass Inc","b":"Canadiens Habs","aStars":29,"bStars":30,"aAtk":10,"bAtk":11,"status":"live","winner":"","aDestPct":66.33,"bDestPct":72.73},{"a":"REAL SEA","b":"這個部落沒有人","aStars":39,"bStars":43,"aAtk":14,"bAtk":15,"status":"live","winner":"","aDestPct":88.87,"bDestPct":98.73}]},{"n":4,"wars":[{"a":"Red Force","b":"REAL SEA","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"Royal Clasher","b":"Touch Grass Inc","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"Ecuador unido","b":"Canadiens Habs","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"*Dragon Rider*","b":"這個部落沒有人","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0}]},{"n":5,"wars":[]},{"n":6,"wars":[]},{"n":7,"wars":[]}],"updated":"Nov 5, 3:35 PM CT","updatedISO":"2026-11-05T21:35:06+00:00","source":"api","odds":{"sims":10000,"promo":{"Red Force":22.0,"Royal Clasher":1.6,"*Dragon Rider*":89.4,"Ecuador unido":0.0,"Touch Grass Inc":5.8,"Canadiens Habs":3.4,"REAL SEA":22.6,"這個部落沒有人":55.2},"demote":{"Red Force":4.6,"Royal Clasher":44.4,"*Dragon Rider*":0.0,"Ecuador unido":93.3,"Touch Grass Inc":22.5,"Canadiens Habs":29.7,"REAL SEA":4.8,"這個部落沒有人":0.8},"avgRank":{"Red Force":3.8,"Royal Clasher":5.99,"*Dragon Rider*":1.43,"Ecuador unido":7.7,"Touch Grass Inc":5.16,"Canadiens Habs":5.51,"REAL SEA":3.78,"這個部落沒有人":2.62},"liveWin":{"Red Force|Royal Clasher":100.0,"*Dragon Rider*|Ecuador unido":94.1,"Touch Grass Inc|Canadiens Habs":86.9,"REAL SEA|這個部落沒有人":0.0},"meWars":[{"round":3,"opp":"Canadiens Habs","live":true,"pWin":86.9,"promoIfWin":6.6,"promoIfLoss":1.1},{"round":4,"opp":"Royal Clasher","live":false,"pWin":46.8,"promoIfWin":10.7,"promoIfLoss":1.5}],"unknownRounds":3,"promoteSpots":2,"demoteSpots":2},"status":{"api":"ok","checked":"2026-11-05T21:35:16+00:00"},"board":{"season":"2026-11-02","wars":3,"cols":["n","th","wars","att","s","tri","avgD","miss","mvps","given","net"],"rows":[["RKellyPeesOnU",18,3,3,9,3,100.0,0,0,2.7,9],["Dre",18,3,3,9,3,100.0,0,0,3.0,9],["Back9Chris",18,3,3,9,3,100.0,0,0,3.0,9],["Justin",18,3,3,8,2,95.7,0,1,2.0,8],["NICK™",18,3,3,8,2,99.7,0,0,3.0,8],["mohit",18,3,3,8,2,96.7,0,0,3.0,8],["Red Legion",18,3,3,8,2,97.0,0,0,3.0,8],["Chase",18,3,3,7,1,91.7,0,0,2.3,7],["Hazey Trees",18,3,3,7,1,96.3,0,0,2.7,7],["Agent 33",18,3,3,7,1,85.7,0,0,3.0,7],["Sir Travis",18,3,2,6,2,100.0,0,0,2.3,6],["TheMeade",18,3,2,6,2,100.0,0,1,2.7,6],["joey",18,3,2,6,2,100.0,0,0,3.0,6],["Bailey",18,3,2,5,1,97.0,0,0,3.0,5],["Radii",18,3,2,4,0,82.5,0,0,3.0,4]]},"cur":{"kind":"cwl","round":3,"state":"inWar","start":"2026-11-05T05:16:44+00:00","end":"2026-11-06T05:16:44+00:00"},"curFull":{"id":"C-2026-11-02-#8RY2U08Y2","kind":"cwl","round":3,"state":"inWar","opp":"Canadiens Habs","size":15,"apm":1,"us":{"s":29,"d":66.33,"a":10},"them":{"n":"Canadiens Habs","tag":"#9J0QYP2Q","s":30,"d":72.73,"a":11},"end":"2026-11-06T05:16:44+00:00","start":"2026-11-05T05:16:44+00:00","pending":[{"n":"Radii","th":18,"left":1,"rank":2,"tri":0},{"n":"TheMeade","th":18,"left":1,"rank":6,"tri":100},{"n":"joey","th":18,"left":1,"rank":9,"tri":100},{"n":"Bailey","th":18,"left":1,"rank":12,"tri":50},{"n":"Sir Travis","th":18,"left":1,"rank":15,"tri":100}],"feed":[[21,"us","Red Legion",18,10,"Daniel",18,10,3,100,3],[20,"them","Terry Bogard⚡️",18,14,"TheMeade",18,6,3,100,3],[19,"us","Agent 33",18,4,"⚡️buck_blond⚡️",18,4,3,100,3],[18,"us","Dre",18,7,"marcbazin",18,7,3,100,3],[17,"them","daplo16",18,15,"RKellyPeesOnU",18,14,3,100,3],[16,"us","Back9Chris",18,13,"stronger",18,13,3,100,3],[15,"us","mohit",18,8,"⭐️yoyo⭐️2️⃣",18,8,3,100,3],[14,"us","NICK™",18,3,"TimOfMontreal",18,3,3,100,3],[13,"them","hussein77",18,2,"mohit",18,8,3,100,3],[12,"them","Heisenbergui",18,9,"Back9Chris",18,13,3,100,3],[11,"us","Hazey Trees",18,1,"JoSaV",18,1,3,100,3],[10,"them","⚡️buck_blond⚡️",18,4,"Hazey Trees",18,1,3,100,3],[9,"them","stronger",18,13,"Bailey",18,12,3,100,3],[8,"us","RKellyPeesOnU",18,14,"Terry Bogard⚡️",18,14,3,100,3],[7,"us","Chase",18,5,"FRANCK",18,5,2,95,2],[6,"them","marcbazin",18,7,"Radii",18,2,3,100,3],[5,"them","sam",18,6,"joey",18,9,3,100,3],[4,"them","⭐️yoyo⭐️2️⃣",18,8,"Chase",18,5,2,98,2],[3,"us","Justin",18,11,"Amonbofils",18,11,3,100,3],[2,"them","FRANCK",18,5,"Sir Travis",18,15,1,93,1],[1,"them","Amonbofils",18,11,"Red Legion",18,10,3,100,3]],"openBases":[[2,18,0],[5,18,2],[6,18,0],[9,18,0],[12,18,0],[15,18,0]],"usAvgAtk":2.9,"themAvgAtk":2.73,"attacksLeft":5,"usTH":{"18":15},"oppTH":{"18":15}},"cwlRates":{"Red Force":2.733,"Touch Grass Inc":2.6,"*Dragon Rider*":3.0,"Canadiens Habs":2.8,"Ecuador unido":2.741,"REAL SEA":2.862,"Royal Clasher":2.667,"這個部落沒有人":2.9},"curNext":{"kind":"cwl","round":4,"start":"2026-11-06T05:19:43+00:00","opp":"Royal Clasher"}};
+const SNAPSHOT = {"me":"Touch Grass Inc","league":"Champion League II","offSeason":false,"season":"2026-11-02","groupState":"inWar","roster":15,"totalRounds":7,"promote":2,"demote":2,"clans":["Red Force","Royal Clasher","*Dragon Rider*","Ecuador unido","Touch Grass Inc","Canadiens Habs","REAL SEA","這個部落沒有人"],"myWar":{"round":3,"opponent":"Canadiens Habs","endTime":"2026-11-06T05:16:44+00:00","roster":15,"done":10,"pending":[{"n":"Radii","th":18,"pos":2},{"n":"TheMeade","th":18,"pos":6},{"n":"joey","th":18,"pos":10},{"n":"Bailey","th":18,"pos":14},{"n":"Sir Travis","th":18,"pos":18}]},"dest":{"Red Force":4237,"Royal Clasher":3978,"*Dragon Rider*":3500,"Ecuador unido":3373,"Touch Grass Inc":3847,"Canadiens Habs":4035,"REAL SEA":4209,"這個部落沒有人":4430},"rounds":[{"n":1,"wars":[{"a":"Red Force","b":"Touch Grass Inc","aStars":39,"bStars":42,"aAtk":15,"bAtk":15,"status":"final","winner":"Touch Grass Inc","aDestPct":97.2,"bDestPct":96.53},{"a":"*Dragon Rider*","b":"Canadiens Habs","aStars":45,"bStars":41,"aAtk":15,"bAtk":15,"status":"final","winner":"*Dragon Rider*","aDestPct":100.0,"bDestPct":96.87},{"a":"Ecuador unido","b":"REAL SEA","aStars":37,"bStars":39,"aAtk":14,"bAtk":14,"status":"final","winner":"REAL SEA","aDestPct":89.67,"bDestPct":92.07},{"a":"Royal Clasher","b":"這個部落沒有人","aStars":40,"bStars":44,"aAtk":15,"bAtk":15,"status":"final","winner":"這個部落沒有人","aDestPct":96.73,"bDestPct":99.33}]},{"n":2,"wars":[{"a":"Red Force","b":"這個部落沒有人","aStars":43,"bStars":43,"aAtk":15,"bAtk":15,"status":"final","winner":"Red Force","aDestPct":98.6,"bDestPct":97.27},{"a":"Royal Clasher","b":"Ecuador unido","aStars":40,"bStars":37,"aAtk":15,"bAtk":13,"status":"final","winner":"Royal Clasher","aDestPct":94.27,"bDestPct":84.27},{"a":"*Dragon Rider*","b":"Touch Grass Inc","aStars":45,"bStars":36,"aAtk":15,"bAtk":15,"status":"final","winner":"*Dragon Rider*","aDestPct":100.0,"bDestPct":93.6},{"a":"Canadiens Habs","b":"REAL SEA","aStars":43,"bStars":44,"aAtk":15,"bAtk":15,"status":"final","winner":"REAL SEA","aDestPct":99.4,"bDestPct":99.67}]},{"n":3,"wars":[{"a":"Red Force","b":"Royal Clasher","aStars":39,"bStars":31,"aAtk":13,"bAtk":12,"status":"live","winner":"","aDestPct":86.67,"bDestPct":74.2},{"a":"*Dragon Rider*","b":"Ecuador unido","aStars":15,"bStars":21,"aAtk":5,"bAtk":8,"status":"live","winner":"","aDestPct":33.33,"bDestPct":50.93},{"a":"Touch Grass Inc","b":"Canadiens Habs","aStars":29,"bStars":30,"aAtk":10,"bAtk":11,"status":"live","winner":"","aDestPct":66.33,"bDestPct":72.73},{"a":"REAL SEA","b":"這個部落沒有人","aStars":39,"bStars":43,"aAtk":14,"bAtk":15,"status":"live","winner":"","aDestPct":88.87,"bDestPct":98.73}]},{"n":4,"wars":[{"a":"Red Force","b":"REAL SEA","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"Royal Clasher","b":"Touch Grass Inc","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"Ecuador unido","b":"Canadiens Habs","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0},{"a":"*Dragon Rider*","b":"這個部落沒有人","aStars":0,"bStars":0,"aAtk":0,"bAtk":0,"status":"upcoming","winner":"","aDestPct":0.0,"bDestPct":0.0}]},{"n":5,"wars":[]},{"n":6,"wars":[]},{"n":7,"wars":[]}],"updated":"Nov 5, 3:45 PM CT","updatedISO":"2026-11-05T21:45:05+00:00","source":"api","odds":{"sims":10000,"promo":{"Red Force":22.0,"Royal Clasher":1.6,"*Dragon Rider*":89.4,"Ecuador unido":0.0,"Touch Grass Inc":5.8,"Canadiens Habs":3.4,"REAL SEA":22.6,"這個部落沒有人":55.2},"demote":{"Red Force":4.6,"Royal Clasher":44.4,"*Dragon Rider*":0.0,"Ecuador unido":93.3,"Touch Grass Inc":22.5,"Canadiens Habs":29.7,"REAL SEA":4.8,"這個部落沒有人":0.8},"avgRank":{"Red Force":3.8,"Royal Clasher":5.99,"*Dragon Rider*":1.43,"Ecuador unido":7.7,"Touch Grass Inc":5.16,"Canadiens Habs":5.51,"REAL SEA":3.78,"這個部落沒有人":2.62},"liveWin":{"Red Force|Royal Clasher":100.0,"*Dragon Rider*|Ecuador unido":94.1,"Touch Grass Inc|Canadiens Habs":86.9,"REAL SEA|這個部落沒有人":0.0},"meWars":[{"round":3,"opp":"Canadiens Habs","live":true,"pWin":86.9,"promoIfWin":6.6,"promoIfLoss":1.1},{"round":4,"opp":"Royal Clasher","live":false,"pWin":46.8,"promoIfWin":10.7,"promoIfLoss":1.5}],"unknownRounds":3,"promoteSpots":2,"demoteSpots":2},"status":{"api":"ok","checked":"2026-11-05T21:45:17+00:00"},"board":{"season":"2026-11-02","wars":3,"cols":["n","th","wars","att","s","tri","avgD","miss","mvps","given","net"],"rows":[["RKellyPeesOnU",18,3,3,9,3,100.0,0,0,2.7,9],["Dre",18,3,3,9,3,100.0,0,0,3.0,9],["Back9Chris",18,3,3,9,3,100.0,0,0,3.0,9],["Justin",18,3,3,8,2,95.7,0,1,2.0,8],["NICK™",18,3,3,8,2,99.7,0,0,3.0,8],["mohit",18,3,3,8,2,96.7,0,0,3.0,8],["Red Legion",18,3,3,8,2,97.0,0,0,3.0,8],["Chase",18,3,3,7,1,91.7,0,0,2.3,7],["Hazey Trees",18,3,3,7,1,96.3,0,0,2.7,7],["Agent 33",18,3,3,7,1,85.7,0,0,3.0,7],["Sir Travis",18,3,2,6,2,100.0,0,0,2.3,6],["TheMeade",18,3,2,6,2,100.0,0,1,2.7,6],["joey",18,3,2,6,2,100.0,0,0,3.0,6],["Bailey",18,3,2,5,1,97.0,0,0,3.0,5],["Radii",18,3,2,4,0,82.5,0,0,3.0,4]]},"cur":{"kind":"cwl","round":3,"state":"inWar","start":"2026-11-05T05:16:44+00:00","end":"2026-11-06T05:16:44+00:00"},"curFull":{"id":"C-2026-11-02-#8RY2U08Y2","kind":"cwl","round":3,"state":"inWar","opp":"Canadiens Habs","size":15,"apm":1,"us":{"s":29,"d":66.33,"a":10},"them":{"n":"Canadiens Habs","tag":"#9J0QYP2Q","s":30,"d":72.73,"a":11},"end":"2026-11-06T05:16:44+00:00","start":"2026-11-05T05:16:44+00:00","pending":[{"n":"Radii","th":18,"left":1,"rank":2,"tri":0},{"n":"TheMeade","th":18,"left":1,"rank":6,"tri":100},{"n":"joey","th":18,"left":1,"rank":9,"tri":100},{"n":"Bailey","th":18,"left":1,"rank":12,"tri":50},{"n":"Sir Travis","th":18,"left":1,"rank":15,"tri":100}],"feed":[[21,"us","Red Legion",18,10,"Daniel",18,10,3,100,3],[20,"them","Terry Bogard⚡️",18,14,"TheMeade",18,6,3,100,3],[19,"us","Agent 33",18,4,"⚡️buck_blond⚡️",18,4,3,100,3],[18,"us","Dre",18,7,"marcbazin",18,7,3,100,3],[17,"them","daplo16",18,15,"RKellyPeesOnU",18,14,3,100,3],[16,"us","Back9Chris",18,13,"stronger",18,13,3,100,3],[15,"us","mohit",18,8,"⭐️yoyo⭐️2️⃣",18,8,3,100,3],[14,"us","NICK™",18,3,"TimOfMontreal",18,3,3,100,3],[13,"them","hussein77",18,2,"mohit",18,8,3,100,3],[12,"them","Heisenbergui",18,9,"Back9Chris",18,13,3,100,3],[11,"us","Hazey Trees",18,1,"JoSaV",18,1,3,100,3],[10,"them","⚡️buck_blond⚡️",18,4,"Hazey Trees",18,1,3,100,3],[9,"them","stronger",18,13,"Bailey",18,12,3,100,3],[8,"us","RKellyPeesOnU",18,14,"Terry Bogard⚡️",18,14,3,100,3],[7,"us","Chase",18,5,"FRANCK",18,5,2,95,2],[6,"them","marcbazin",18,7,"Radii",18,2,3,100,3],[5,"them","sam",18,6,"joey",18,9,3,100,3],[4,"them","⭐️yoyo⭐️2️⃣",18,8,"Chase",18,5,2,98,2],[3,"us","Justin",18,11,"Amonbofils",18,11,3,100,3],[2,"them","FRANCK",18,5,"Sir Travis",18,15,1,93,1],[1,"them","Amonbofils",18,11,"Red Legion",18,10,3,100,3]],"openBases":[[2,18,0],[5,18,2],[6,18,0],[9,18,0],[12,18,0],[15,18,0]],"usAvgAtk":2.9,"themAvgAtk":2.73,"attacksLeft":5,"usTH":{"18":15},"oppTH":{"18":15}},"cwlRates":{"Red Force":2.733,"Touch Grass Inc":2.6,"*Dragon Rider*":3.0,"Canadiens Habs":2.8,"Ecuador unido":2.741,"REAL SEA":2.862,"Royal Clasher":2.667,"這個部落沒有人":2.9},"curNext":{"kind":"cwl","round":4,"start":"2026-11-06T05:19:43+00:00","opp":"Royal Clasher"}};
 let ME = SNAPSHOT.me || "Touch Grass Inc";
 let state = structuredClone(SNAPSHOT), db = null, docRef = null, editing = null, saving = false, canWrite = false;
 const $ = id => document.getElementById(id);
@@ -588,12 +594,16 @@ function render(){
   { const lr=(s.rounds||[]).find(r=>(r.wars||[]).some(w=>w.status==="live"));
     $("rounds-note").textContent = canWrite ? "Tap ✎ to update a war" : `${finalsDone} of ${s.totalRounds||7} done${lr?` · R${lr.n} live`:""}`; }
   updLine();
-  $("rounds").innerHTML = (s.rounds||[]).map((r,ri)=>`
+  const RO=window.roundOpen||(window.roundOpen=new Set());
+  $("rounds").innerHTML = `<div class="row" style="justify-content:flex-start"><button type="button" class="rnd-tog" data-rnd="all">${RO.has("all")?"Show only our wars":"Show every war"}</button></div>` + (s.rounds||[]).map((r,ri)=>{
+    const ws=r.wars||[], mineIdx=ws.map((w,wi)=>(w.a===ME||w.b===ME)?wi:-1).filter(i=>i>=0), open=RO.has("all")||RO.has(r.n)||canWrite||!mineIdx.length;
+    const show=open?ws.map((w,wi)=>wi):mineIdx;
+    return `
     <div class="round">
-      <div class="round-h"><h3>Round ${r.n}</h3>${canWrite?`<button data-add="${ri}">+ Add war</button>`:''}</div>
-      ${(r.wars||[]).map((w,wi)=>warRow(w,ri,wi)).join("") || '<div class="war note" style="grid-template-columns:1fr">Matchups not posted yet.</div>'}
+      <div class="round-h"><h3>Round ${r.n}</h3>${!canWrite&&ws.length>mineIdx.length&&mineIdx.length&&!RO.has("all")?`<button type="button" class="rnd-tog" data-rnd="${r.n}">${RO.has(r.n)?"only ours":"all "+ws.length+" wars"}</button>`:""}${canWrite?`<button data-add="${ri}">+ Add war</button>`:''}</div>
+      ${show.map(wi=>warRow(ws[wi],ri,wi)).join("") || '<div class="war note" style="grid-template-columns:1fr">Matchups not posted yet.</div>'}
       ${editing && editing.ri===ri ? editor(r,ri) : ''}
-    </div>`).join("") + (canWrite && (s.rounds||[]).length<(s.totalRounds||7) ? `<div class="row"><button id="add-round">+ Add round</button></div>` : "");
+    </div>`; }).join("") + (canWrite && (s.rounds||[]).length<(s.totalRounds||7) ? `<div class="row"><button id="add-round">+ Add round</button></div>` : "");
 
   // destruction
   $("dest-sec").hidden=!canWrite;
@@ -728,27 +738,31 @@ function renderPath(){
   $("pv-war-l").hidden=!w; $("pv-war").innerHTML=w; $("pv-promo").innerHTML=p;
   $("pv-note").textContent=s.curFull&&s.curFull.kind==="cwl"&&s.curFull.state==="inWar"?`R${s.curFull.round} live`:"";
 }
-/* ---------- recent attacks + defenses (newest first) ---------- */
+/* ---------- war log: our attacks + their attacks on us (newest first), one dropdown with a toggle ---------- */
+window.feedTab=window.feedTab||"atk";
 function renderFeed(c, link){
-  const show=c&&c.state==="inWar"&&(c.feed||[]).length, a=$("atk-sec"), d=$("def-sec");
-  if(!show){ a.hidden=true; d.hidden=true; return; }
-  a.hidden=false; d.hidden=false;
+  const sec=$("atk-sec"), show=c&&c.state==="inWar"&&(c.feed||[]).length;
+  if(!show){ sec.hidden=true; return; }
+  sec.hidden=false;
   const row=x=>{ const [o,sd,an,ath,ap,dn,dth,dp,st,pc,nw]=x;
     const att=sd==="us"?link(an):nm(an), def=sd==="us"?nm(dn):link(dn);
     return `<div class="pv-row"><span class="k">${o}</span><span class="who">${att} <span class="note">#${ap} TH${esc(ath)}</span><small>→ #${dp} ${def} (TH${esc(dth)})${nw>0?` · +${nw} new ★`:" · no new stars"}</small></span><span class="gain ${st===3?"up":st===0?"bad":"warn"}">${"★".repeat(st)}${"☆".repeat(3-st)} ${pc}%</span></div>`; };
   const ours=c.feed.filter(x=>x[1]==="us"), theirs=c.feed.filter(x=>x[1]==="them");
   const block=(arr,empty)=>arr.length?`<div class="pv-list">${arr.slice(0,15).map(row).join("")}</div>${arr.length>15?`<div class="note">Showing the latest 15 of ${arr.length}.</div>`:""}`:`<div class="note">${empty}</div>`;
-  $("atk").innerHTML=block(ours,"No attacks from us yet.");
-  $("def").innerHTML=block(theirs,"Nobody has hit us yet.");
-  $("atk-note").textContent=ours.length?`${ours.filter(x=>x[8]===3).length} triples in the last ${Math.min(ours.length,40)}`:"";
-  $("def-note").textContent=theirs.length?`${theirs.filter(x=>x[8]===3).length} triples allowed`:"";
+  $("atk").innerHTML=block(ours,"No attacks from us yet."); $("def").innerHTML=block(theirs,"Nobody has hit us yet.");
+  $("atk").hidden=window.feedTab!=="atk"; $("def").hidden=window.feedTab!=="def";
+  document.querySelectorAll("#atk-sec .seg-b").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.seg===window.feedTab)));
+  $("atk-note").textContent=`${ours.filter(x=>x[8]===3).length} triples · ${theirs.filter(x=>x[8]===3).length} allowed`;
 }
+document.addEventListener("click",e=>{ const b=e.target.closest("#atk-sec .seg-b"); if(!b) return;
+  window.feedTab=b.dataset.seg; $("atk").hidden=window.feedTab!=="atk"; $("def").hidden=window.feedTab!=="def";
+  document.querySelectorAll("#atk-sec .seg-b").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); });
 function renderBoard(){
   const b=state&&state.board, sec=$("lb-sec");
   if(!(b&&b.rows&&b.rows.length)){ sec.hidden=true; return; }
   sec.hidden=false;
   const C=b.cols, rows=b.rows.map(r=>Object.fromEntries(C.map((k,i)=>[k,r[i]])));
-  $("lb-note").textContent=`${b.wars} round${b.wars===1?"":"s"} counted · updates live`;
+  $("lb-note").textContent=`${b.wars} round${b.wars===1?"":"s"}`;
   $("podium").innerHTML=rows.slice(0,3).map((r,i)=>`<div class="pod p${i+1}"><span class="medal">${["🥇","🥈","🥉"][i]}</span><span class="tag">${i===0?"CWL MVP":"#"+(i+1)}</span><span class="who">${statsLink(r.n)}</span><small>${r.net??r.s}★ in ${r.att} hit${r.att===1?"":"s"} · ${r.tri} triple${r.tri===1?"":"s"} · ${r.avgD??"–"}%</small></div>`).join("");
   $("lb").innerHTML=rows.map((r,i)=>`<tr data-lb="${esc(r.n)}"><td class="pos num">${i+1}</td><td class="clan">${statsLink(r.n)}<small>TH${esc(r.th)}</small></td><td class="num"><b>${r.net??r.s}</b>${r.miss?` <small class="bad">(−${r.miss})</small>`:""}</td><td class="num">${r.att}</td><td class="num">${r.tri}</td><td class="num">${r.avgD??"–"}</td><td class="num">${r.given??"–"}</td><td class="num ${r.miss?'bad':''}">${r.miss}</td><td class="num">${r.mvps?"⭐".repeat(Math.min(r.mvps,3))+(r.mvps>3?" x"+r.mvps:""):"–"}</td></tr>`).join("");
 }
@@ -984,5 +998,10 @@ document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) liveRef
 /* still to attack: remember open/closed while the page re-renders */
 window.pendAll=false;
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-pend-toggle]"); if(!b) return; e.preventDefault(); window.pendAll=!window.pendAll; try{ render(); }catch(_){} });
+</script>
+<script>
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-rnd]"); if(!b) return; e.preventDefault();
+  const RO=window.roundOpen||(window.roundOpen=new Set()), k=b.dataset.rnd==="all"?"all":Number(b.dataset.rnd);
+  RO.has(k)?RO.delete(k):RO.add(k); try{ render(); }catch(_){} });
 </script>
 </body></html>
