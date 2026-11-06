@@ -326,6 +326,8 @@ section.closed > .head.tog h2::before{transform:rotate(-45deg)}
 /* war game lines */
 .wg{display:grid;gap:5px;margin:4px 0 10px}
 .wg-l{display:grid;grid-template-columns:20px 1fr;gap:6px;font-size:13px;line-height:1.4}
+.wg-l.noic{grid-template-columns:1fr}
+.key.noic{grid-template-columns:minmax(0,1fr)}
 </style>
 <style>
 /* collapsible sections */
@@ -419,9 +421,9 @@ section.closed > .head{padding-bottom:2px}
   </section>
 
   <section id="path-sec" hidden>
-    <div class="head"><h2>Path to victory 🎯</h2><span class="note" id="path-note"></span></div>
+    <div class="head"><h2>Path to victory</h2><span class="note" id="path-note"></span></div>
     <div class="keys-box" id="keys-sec" hidden>
-      <span class="label kg-l" style="color:var(--gold-ink)">Keys to victory 🔑</span><span id="keys-note" hidden></span>
+      <span class="label kg-l" style="color:var(--gold-ink)">Keys to victory</span><span id="keys-note" hidden></span>
       <div class="keys-grp" id="keys-this-g"><span class="label kg-l">This war</span><div class="keys" id="keys-this"></div></div>
       <div class="keys-grp" id="keys-next-g"><span class="label kg-l" id="keys-next-l">Next war</span><div class="keys" id="keys-next"></div></div>
     </div>
@@ -429,14 +431,14 @@ section.closed > .head{padding-bottom:2px}
   </section>
 
   <section id="top-sec" hidden>
-    <div class="head"><h2>Top 3 🏆</h2><span class="note">live</span></div>
+    <div class="head"><h2>Top 3</h2><span class="note">live</span></div>
     <div class="podium" id="top"></div>
-    <div class="note">MVP order: attack stars → fewest stars given up → hitting up / tougher bases → attack % → lowest % given up. A base nobody attacked counts as untested (between 1★ and 2★ given), so it can't beat a proven defense. An attack still unused when the war ends costs −1★ (unused attacks in a live war don't count yet), so show up. Good bases win MVPs, so build something new.</div>
+    <div class="note">MVP order: attack stars → fewest stars given up → hitting up / tougher bases → attack % → lowest % given up. A base nobody attacked counts as untested (between 1★ and 2★ given), so it can't beat a proven defense. An attack still unused when the war ends costs −1★ (unused attacks in a live war don't count yet).</div>
   </section>
 
 
   <section id="atk-sec" hidden>
-    <div class="head"><h2>War log ⚔️</h2><span class="note" id="atk-note"></span></div>
+    <div class="head"><h2>War log</h2><span class="note" id="atk-note"></span></div>
     <div class="seg" role="group" aria-label="War log view"><button type="button" class="seg-b" data-seg="atk" aria-pressed="true">Attacks</button><button type="button" class="seg-b" data-seg="def" aria-pressed="false">Defenses</button></div>
     <div id="atk"></div>
     <div id="def" hidden></div>
@@ -457,7 +459,7 @@ section.closed > .head{padding-bottom:2px}
 
 <script>
 if(location.hash.startsWith("#player=")) location.replace("history.html"+location.hash);
-const SNAPSHOT = {"clan":{"name":"Touch Grass Inc","tag":"#2JJU0V220","level":19,"members":27,"w":64,"l":null,"t":null,"streak":5,"league":"Champion League II"},"log":[],"logCols":["date","res","size","s","os","d","od","opp","apm"],"players":[["Justin",18,"coLeader",3,2,2,3,8,2,95.7,0,3,0,3,5,11.0,84.3],["RKellyPeesOnU",18,"coLeader",3,2,2,3,9,3,100.0,0,3,0,3,8,14.0,97.7],["Chase",18,"leader",3,2,2,3,7,1,91.7,0,2,1,3,7,5.3,98.7],["Hazey Trees",18,"coLeader",3,2,2,3,7,1,96.3,0,3,0,3,8,1.0,96.7],["TheMeade",18,"coLeader",3,2,2,3,9,3,100.0,1,2,0,3,8,5.7,96.3],["Agent 33",18,"admin",3,2,2,3,7,1,85.7,0,3,0,3,9,4.0,100.0],["Back9Chris",18,"admin",3,2,2,3,9,3,100.0,0,3,0,3,9,13.0,100.0],["mohit",18,"admin",3,2,2,3,8,2,96.7,0,3,0,3,9,8.0,100.0],["NICK™",18,"admin",3,2,2,3,8,2,99.7,0,3,0,3,9,3.0,100.0],["Radii",18,"admin",3,2,2,3,7,1,88.3,0,3,0,3,9,2.0,100.0],["joey",18,"admin",3,2,2,3,9,3,100.0,0,3,0,3,9,9.0,100.0],["Sir Travis",18,"admin",3,2,2,2,6,2,100.0,0,2,0,3,7,15.0,97.7],["Quinten",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["thapunisher2.0",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["Dre",18,"admin",3,2,2,3,9,3,100.0,0,3,0,3,9,7.0,100.0],["Ddawg",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["SyoKiri",18,"member",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["Greek Enigma",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["coow",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["Red Legion",18,"admin",3,2,2,3,8,2,97.0,0,3,0,3,9,10.0,100.0],["Bailey",18,"admin",3,2,2,3,8,2,98.0,0,3,0,3,9,12.0,100.0],["chefspecialbruh",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["ADP123",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["⚠TS_#2 Kawhi✋⚠",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["Lord S Cummins",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["⚠TS Nazer⚠",18,"member",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["⊱3✯Ev⊰",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null]],"pCols":["n","th","role","wars","used","avail","att","stars","tri","avgD","up","same","down","defWars","defStars","avgT","givenD"],"historySince":"2026-11-04T04:41:05+00:00","warsTracked":3,"current":{"id":"C-2026-11-02-#8RY2U08Y2","kind":"cwl","round":3,"state":"inWar","opp":"Canadiens Habs","size":15,"apm":1,"us":{"s":41,"d":93.0,"a":14},"them":{"n":"Canadiens Habs","tag":"#9J0QYP2Q","s":40,"d":97.07,"a":15},"end":"2026-11-06T05:16:44+00:00","start":"2026-11-05T05:16:44+00:00","pending":[{"n":"Sir Travis","th":18,"left":1,"rank":15,"tri":100}],"feed":[[29,"us","Bailey",18,12,"Strawberry™️",18,12,3,100,3],[28,"them","Strawberry™️",18,12,"Dre",18,7,3,100,3],[27,"us","joey",18,9,"Heisenbergui",18,9,3,100,3],[26,"them","JoSaV",18,1,"Agent 33",18,4,3,100,3],[25,"us","Radii",18,2,"hussein77",18,2,3,100,3],[24,"them","Daniel",18,10,"Justin",18,11,1,65,1],[23,"them","TimOfMontreal",18,3,"NICK™",18,3,3,100,3],[22,"us","TheMeade",18,6,"sam",18,6,3,100,3],[21,"us","Red Legion",18,10,"Daniel",18,10,3,100,3],[20,"them","Terry Bogard⚡️",18,14,"TheMeade",18,6,3,100,3],[19,"us","Agent 33",18,4,"⚡️buck_blond⚡️",18,4,3,100,3],[18,"us","Dre",18,7,"marcbazin",18,7,3,100,3],[17,"them","daplo16",18,15,"RKellyPeesOnU",18,14,3,100,3],[16,"us","Back9Chris",18,13,"stronger",18,13,3,100,3],[15,"us","mohit",18,8,"⭐️yoyo⭐️2️⃣",18,8,3,100,3],[14,"us","NICK™",18,3,"TimOfMontreal",18,3,3,100,3],[13,"them","hussein77",18,2,"mohit",18,8,3,100,3],[12,"them","Heisenbergui",18,9,"Back9Chris",18,13,3,100,3],[11,"us","Hazey Trees",18,1,"JoSaV",18,1,3,100,3],[10,"them","⚡️buck_blond⚡️",18,4,"Hazey Trees",18,1,3,100,3],[9,"them","stronger",18,13,"Bailey",18,12,3,100,3],[8,"us","RKellyPeesOnU",18,14,"Terry Bogard⚡️",18,14,3,100,3],[7,"us","Chase",18,5,"FRANCK",18,5,2,95,2],[6,"them","marcbazin",18,7,"Radii",18,2,3,100,3],[5,"them","sam",18,6,"joey",18,9,3,100,3],[4,"them","⭐️yoyo⭐️2️⃣",18,8,"Chase",18,5,2,98,2],[3,"us","Justin",18,11,"Amonbofils",18,11,3,100,3],[2,"them","FRANCK",18,5,"Sir Travis",18,15,1,93,1],[1,"them","Amonbofils",18,11,"Red Legion",18,10,3,100,3]],"openBases":[[5,18,2],[15,18,0]],"ourBases":[[1,"Hazey Trees",18,3,1],[2,"Radii",18,3,1],[3,"NICK™",18,3,1],[4,"Agent 33",18,3,1],[5,"Chase",18,2,1],[6,"TheMeade",18,3,1],[7,"Dre",18,3,1],[8,"mohit",18,3,1],[9,"joey",18,3,1],[10,"Red Legion",18,3,1],[11,"Justin",18,1,1],[12,"Bailey",18,3,1],[13,"Back9Chris",18,3,1],[14,"RKellyPeesOnU",18,3,1],[15,"Sir Travis",18,1,1]],"oppLeft":[],"usAvgAtk":2.93,"themAvgAtk":2.67,"attacksLeft":1,"usTH":{"18":15},"oppTH":{"18":15}},"cwl":{"season":"2026-11-02","state":"inWar","roundsDone":2,"table":[{"n":"REAL SEA","s":145,"d":4309,"me":false},{"n":"這個部落沒有人","s":140,"d":4430,"me":false},{"n":"*Dragon Rider*","s":140,"d":4000,"me":false},{"n":"Red Force","s":137,"d":4437,"me":false},{"n":"Touch Grass Inc","s":129,"d":4247,"me":true},{"n":"Royal Clasher","s":128,"d":4258,"me":false},{"n":"Canadiens Habs","s":124,"d":4400,"me":false},{"n":"Ecuador unido","s":107,"d":3804,"me":false}]},"mvps":[["CWL R3","Canadiens Habs","2026-11-06","live","Justin","3★ 100% on #11; only gave up 1★ on defense (65%)","C-2026-11-02-#8RY2U08Y2"],["CWL R2","*Dragon Rider*","2026-11-05","lose","TheMeade","3★ 100% on #5, hitting up 1 spots; only 3★ above their spot; toughest of 6 triples","C-2026-11-02-#8RPVY0JL9"],["CWL R1","Red Force","2026-11-04","win","Justin","3★ 100% on #11; only gave up 1★ on defense (88%)","C-2026-11-02-#8RPC9JJ0Q"]],"cwlBoard":{"season":"2026-11-02","wars":3,"cols":["n","th","wars","att","s","tri","avgD","miss","mvps","given","net"],"rows":[["TheMeade",18,3,3,9,3,100.0,0,1,2.7,9],["RKellyPeesOnU",18,3,3,9,3,100.0,0,0,2.7,9],["Dre",18,3,3,9,3,100.0,0,0,3.0,9],["joey",18,3,3,9,3,100.0,0,0,3.0,9],["Back9Chris",18,3,3,9,3,100.0,0,0,3.0,9],["Justin",18,3,3,8,2,95.7,0,1,1.7,8],["NICK™",18,3,3,8,2,99.7,0,0,3.0,8],["mohit",18,3,3,8,2,96.7,0,0,3.0,8],["Red Legion",18,3,3,8,2,97.0,0,0,3.0,8],["Bailey",18,3,3,8,2,98.0,0,0,3.0,8],["Chase",18,3,3,7,1,91.7,0,0,2.3,7],["Hazey Trees",18,3,3,7,1,96.3,0,0,2.7,7],["Radii",18,3,3,7,1,88.3,0,0,3.0,7],["Agent 33",18,3,3,7,1,85.7,0,0,3.0,7],["Sir Travis",18,3,2,6,2,100.0,0,0,2.3,6]]},"curTop":[["Justin",18,11,3,"3★ 100% on #11 · base gave up 1★"],["Hazey Trees",18,1,3,"3★ 100% on #1 · base gave up 3★"],["Radii",18,2,3,"3★ 100% on #2 · base gave up 3★"]],"next":{"kind":"cwl","round":4,"opp":"Royal Clasher","start":"2026-11-06T05:19:43+00:00","size":15,"usTH":{"18":15},"oppTH":{"18":15},"usAvg":39.0,"usD":95.1,"usN":2,"oppAvg":40.0,"oppD":95.5,"oppN":2,"lineup":[["Hazey Trees",18,0],["Radii",18,0],["NICK™",18,0],["Agent 33",18,0],["Chase",18,0],["TheMeade",18,0],["Dre",18,0],["mohit",18,0],["joey",18,0],["Red Legion",18,0],["Justin",18,0],["Bailey",18,0],["Back9Chris",18,0],["RKellyPeesOnU",18,0],["Sir Travis",18,0]]},"scout":null,"warLogPublic":false,"cwlLast":{"league":"Champion League II","season":"2026-11-02","place":5,"of":8,"stars":129,"done":2,"final":false,"result":"stayed"},"cwlRates":{"Red Force":2.733,"Touch Grass Inc":2.6,"*Dragon Rider*":3.0,"Canadiens Habs":2.8,"Ecuador unido":2.741,"REAL SEA":2.862,"Royal Clasher":2.667,"這個部落沒有人":2.9},"drill":{"wars":[["CWL R3","Canadiens Habs","live","2026-11-06",1],["CWL R2","*Dragon Rider*","lose","2026-11-05",1],["CWL R1","Red Force","win","2026-11-04",1]],"p":{"3":[[0,1,[[3,100,1]],3],[1,1,[[2,92,1]],3],[2,1,[[2,97,1]],2]],"9":[[0,2,[[3,100,2]],3],[1,2,[[2,83,2]],3],[2,2,[[2,82,2]],3]],"8":[[0,3,[[3,100,3]],3],[1,3,[[2,99,3]],3],[2,3,[[3,100,3]],3]],"5":[[0,4,[[3,100,4]],3],[1,4,[[2,88,4]],3],[2,4,[[2,69,4]],3]],"2":[[0,5,[[2,95,5]],2],[1,5,[[2,80,6]],3],[2,5,[[3,100,5]],2]],"4":[[0,6,[[3,100,6]],3],[1,6,[[3,100,5]],3],[2,6,[[3,100,6]],2]],"14":[[0,7,[[3,100,7]],3],[1,7,[[3,100,7]],3],[2,7,[[3,100,7]],3]],"7":[[0,8,[[3,100,8]],3],[1,8,[[2,90,8]],3],[2,8,[[3,100,8]],3]],"10":[[0,9,[[3,100,9]],3],[1,9,[[3,100,9]],3],[2,9,[[3,100,9]],3]],"19":[[0,10,[[3,100,10]],3],[1,10,[[2,91,10]],3],[2,10,[[3,100,10]],3]],"0":[[0,11,[[3,100,11]],1],[1,11,[[2,87,11]],3],[2,11,[[3,100,11]],1]],"20":[[0,12,[[3,100,12]],3],[1,12,[[2,94,12]],3],[2,12,[[3,100,12]],3]],"6":[[0,13,[[3,100,13]],3],[1,13,[[3,100,13]],3],[2,13,[[3,100,13]],3]],"1":[[0,14,[[3,100,14]],3],[1,14,[[3,100,14]],3],[2,14,[[3,100,14]],2]],"11":[[0,15,[],1],[1,15,[[3,100,15]],3],[2,15,[[3,100,15]],3]]}},"don":{"year":2026,"since":"2026-11-04T11:40:09+00:00","rows":[["Justin",558,545],["RKellyPeesOnU",1676,710],["Chase",765,1062],["Hazey Trees",700,1263],["TheMeade",384,578],["Agent 33",321,700],["Back9Chris",0,232],["mohit",433,799],["NICK™",173,0],["Radii",556,578],["joey",292,287],["Sir Travis",442,87],["Quinten",0,0],["thapunisher2.0",143,0],["Dre",435,718],["Ddawg",179,116],["SyoKiri",0,0],["Greek Enigma",55,0],["coow",532,0],["Red Legion",207,174],["Bailey",0,59],["chefspecialbruh",0,0],["ADP123",0,0],["⚠TS_#2 Kawhi✋⚠",262,314],["Lord S Cummins",0,0],["⚠TS Nazer⚠",172,0],["⊱3✯Ev⊰",0,0]]},"regularTracked":0,"updated":"Nov 5, 9:05 PM CT","updatedISO":"2026-11-06T03:05:09+00:00","cwlOdds":{"sims":10000,"promo":{"Red Force":23.3,"Royal Clasher":1.3,"*Dragon Rider*":90.3,"Ecuador unido":0.0,"Touch Grass Inc":6.9,"Canadiens Habs":2.0,"REAL SEA":23.6,"這個部落沒有人":52.6},"demote":{"Red Force":3.6,"Royal Clasher":44.6,"*Dragon Rider*":0.0,"Ecuador unido":95.5,"Touch Grass Inc":18.4,"Canadiens Habs":32.9,"REAL SEA":4.2,"這個部落沒有人":0.7},"avgRank":{"Red Force":3.73,"Royal Clasher":5.99,"*Dragon Rider*":1.41,"Ecuador unido":7.78,"Touch Grass Inc":5.0,"Canadiens Habs":5.7,"REAL SEA":3.73,"這個部落沒有人":2.67},"liveWin":{"Red Force|Royal Clasher":100.0,"*Dragon Rider*|Ecuador unido":100.0,"Touch Grass Inc|Canadiens Habs":100.0,"REAL SEA|這個部落沒有人":0.0},"meWars":[{"round":3,"opp":"Canadiens Habs","live":true,"pWin":100.0,"promoIfWin":6.9,"promoIfLoss":null},{"round":4,"opp":"Royal Clasher","live":false,"pWin":46.3,"promoIfWin":12.3,"promoIfLoss":2.2}],"unknownRounds":3,"promoteSpots":2,"demoteSpots":2},"status":{"api":"ok","checked":"2026-11-06T03:05:21+00:00","parts":{"cwl":"ok","war":"ok"}}};
+const SNAPSHOT = {"clan":{"name":"Touch Grass Inc","tag":"#2JJU0V220","level":19,"members":27,"w":64,"l":null,"t":null,"streak":5,"league":"Champion League II"},"log":[],"logCols":["date","res","size","s","os","d","od","opp","apm"],"players":[["Justin",18,"coLeader",3,2,2,3,8,2,95.7,0,3,0,3,5,11.0,84.3],["RKellyPeesOnU",18,"coLeader",3,2,2,3,9,3,100.0,0,3,0,3,8,14.0,97.7],["Chase",18,"leader",3,2,2,3,7,1,91.7,0,2,1,3,7,5.3,98.7],["Hazey Trees",18,"coLeader",3,2,2,3,7,1,96.3,0,3,0,3,8,1.0,96.7],["TheMeade",18,"coLeader",3,2,2,3,9,3,100.0,1,2,0,3,8,5.7,96.3],["Agent 33",18,"admin",3,2,2,3,7,1,85.7,0,3,0,3,9,4.0,100.0],["Back9Chris",18,"admin",3,2,2,3,9,3,100.0,0,3,0,3,9,13.0,100.0],["mohit",18,"admin",3,2,2,3,8,2,96.7,0,3,0,3,9,8.0,100.0],["NICK™",18,"admin",3,2,2,3,8,2,99.7,0,3,0,3,9,3.0,100.0],["Radii",18,"admin",3,2,2,3,7,1,88.3,0,3,0,3,9,2.0,100.0],["joey",18,"admin",3,2,2,3,9,3,100.0,0,3,0,3,9,9.0,100.0],["Sir Travis",18,"admin",3,2,2,2,6,2,100.0,0,2,0,3,7,15.0,97.7],["Quinten",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["thapunisher2.0",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["Dre",18,"admin",3,2,2,3,9,3,100.0,0,3,0,3,9,7.0,100.0],["Ddawg",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["SyoKiri",18,"member",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["Greek Enigma",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["coow",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["Red Legion",18,"admin",3,2,2,3,8,2,97.0,0,3,0,3,9,10.0,100.0],["Bailey",18,"admin",3,2,2,3,8,2,98.0,0,3,0,3,9,12.0,100.0],["chefspecialbruh",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["ADP123",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["⚠TS_#2 Kawhi✋⚠",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["Lord S Cummins",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["⚠TS Nazer⚠",18,"member",0,0,0,0,0,0,null,0,0,0,0,0,null,null],["⊱3✯Ev⊰",18,"admin",0,0,0,0,0,0,null,0,0,0,0,0,null,null]],"pCols":["n","th","role","wars","used","avail","att","stars","tri","avgD","up","same","down","defWars","defStars","avgT","givenD"],"historySince":"2026-11-04T04:41:05+00:00","warsTracked":3,"current":{"id":"C-2026-11-02-#8RY2U08Y2","kind":"cwl","round":3,"state":"inWar","opp":"Canadiens Habs","size":15,"apm":1,"us":{"s":41,"d":93.0,"a":14},"them":{"n":"Canadiens Habs","tag":"#9J0QYP2Q","s":40,"d":97.07,"a":15},"end":"2026-11-06T05:16:44+00:00","start":"2026-11-05T05:16:44+00:00","pending":[{"n":"Sir Travis","th":18,"left":1,"rank":15,"tri":100}],"feed":[[29,"us","Bailey",18,12,"Strawberry™️",18,12,3,100,3],[28,"them","Strawberry™️",18,12,"Dre",18,7,3,100,3],[27,"us","joey",18,9,"Heisenbergui",18,9,3,100,3],[26,"them","JoSaV",18,1,"Agent 33",18,4,3,100,3],[25,"us","Radii",18,2,"hussein77",18,2,3,100,3],[24,"them","Daniel",18,10,"Justin",18,11,1,65,1],[23,"them","TimOfMontreal",18,3,"NICK™",18,3,3,100,3],[22,"us","TheMeade",18,6,"sam",18,6,3,100,3],[21,"us","Red Legion",18,10,"Daniel",18,10,3,100,3],[20,"them","Terry Bogard⚡️",18,14,"TheMeade",18,6,3,100,3],[19,"us","Agent 33",18,4,"⚡️buck_blond⚡️",18,4,3,100,3],[18,"us","Dre",18,7,"marcbazin",18,7,3,100,3],[17,"them","daplo16",18,15,"RKellyPeesOnU",18,14,3,100,3],[16,"us","Back9Chris",18,13,"stronger",18,13,3,100,3],[15,"us","mohit",18,8,"⭐️yoyo⭐️2️⃣",18,8,3,100,3],[14,"us","NICK™",18,3,"TimOfMontreal",18,3,3,100,3],[13,"them","hussein77",18,2,"mohit",18,8,3,100,3],[12,"them","Heisenbergui",18,9,"Back9Chris",18,13,3,100,3],[11,"us","Hazey Trees",18,1,"JoSaV",18,1,3,100,3],[10,"them","⚡️buck_blond⚡️",18,4,"Hazey Trees",18,1,3,100,3],[9,"them","stronger",18,13,"Bailey",18,12,3,100,3],[8,"us","RKellyPeesOnU",18,14,"Terry Bogard⚡️",18,14,3,100,3],[7,"us","Chase",18,5,"FRANCK",18,5,2,95,2],[6,"them","marcbazin",18,7,"Radii",18,2,3,100,3],[5,"them","sam",18,6,"joey",18,9,3,100,3],[4,"them","⭐️yoyo⭐️2️⃣",18,8,"Chase",18,5,2,98,2],[3,"us","Justin",18,11,"Amonbofils",18,11,3,100,3],[2,"them","FRANCK",18,5,"Sir Travis",18,15,1,93,1],[1,"them","Amonbofils",18,11,"Red Legion",18,10,3,100,3]],"openBases":[[5,18,2],[15,18,0]],"ourBases":[[1,"Hazey Trees",18,3,1],[2,"Radii",18,3,1],[3,"NICK™",18,3,1],[4,"Agent 33",18,3,1],[5,"Chase",18,2,1],[6,"TheMeade",18,3,1],[7,"Dre",18,3,1],[8,"mohit",18,3,1],[9,"joey",18,3,1],[10,"Red Legion",18,3,1],[11,"Justin",18,1,1],[12,"Bailey",18,3,1],[13,"Back9Chris",18,3,1],[14,"RKellyPeesOnU",18,3,1],[15,"Sir Travis",18,1,1]],"oppLeft":[],"usAvgAtk":2.93,"themAvgAtk":2.67,"attacksLeft":1,"usTH":{"18":15},"oppTH":{"18":15}},"cwl":{"season":"2026-11-02","state":"inWar","roundsDone":2,"table":[{"n":"*Dragon Rider*","s":146,"d":4200,"me":false},{"n":"REAL SEA","s":145,"d":4309,"me":false},{"n":"這個部落沒有人","s":140,"d":4430,"me":false},{"n":"Red Force","s":137,"d":4437,"me":false},{"n":"Touch Grass Inc","s":129,"d":4247,"me":true},{"n":"Royal Clasher","s":128,"d":4258,"me":false},{"n":"Canadiens Habs","s":124,"d":4400,"me":false},{"n":"Ecuador unido","s":107,"d":3804,"me":false}]},"mvps":[["CWL R3","Canadiens Habs","2026-11-06","live","Justin","3★ 100% on #11; only gave up 1★ on defense (65%)","C-2026-11-02-#8RY2U08Y2"],["CWL R2","*Dragon Rider*","2026-11-05","lose","TheMeade","3★ 100% on #5, hitting up 1 spots; only 3★ above their spot; toughest of 6 triples","C-2026-11-02-#8RPVY0JL9"],["CWL R1","Red Force","2026-11-04","win","Justin","3★ 100% on #11; only gave up 1★ on defense (88%)","C-2026-11-02-#8RPC9JJ0Q"]],"cwlBoard":{"season":"2026-11-02","wars":3,"cols":["n","th","wars","att","s","tri","avgD","miss","mvps","given","net"],"rows":[["TheMeade",18,3,3,9,3,100.0,0,1,2.7,9],["RKellyPeesOnU",18,3,3,9,3,100.0,0,0,2.7,9],["Dre",18,3,3,9,3,100.0,0,0,3.0,9],["joey",18,3,3,9,3,100.0,0,0,3.0,9],["Back9Chris",18,3,3,9,3,100.0,0,0,3.0,9],["Justin",18,3,3,8,2,95.7,0,1,1.7,8],["NICK™",18,3,3,8,2,99.7,0,0,3.0,8],["mohit",18,3,3,8,2,96.7,0,0,3.0,8],["Red Legion",18,3,3,8,2,97.0,0,0,3.0,8],["Bailey",18,3,3,8,2,98.0,0,0,3.0,8],["Chase",18,3,3,7,1,91.7,0,0,2.3,7],["Hazey Trees",18,3,3,7,1,96.3,0,0,2.7,7],["Radii",18,3,3,7,1,88.3,0,0,3.0,7],["Agent 33",18,3,3,7,1,85.7,0,0,3.0,7],["Sir Travis",18,3,2,6,2,100.0,0,0,2.3,6]]},"curTop":[["Justin",18,11,3,"3★ 100% on #11 · base gave up 1★"],["Hazey Trees",18,1,3,"3★ 100% on #1 · base gave up 3★"],["Radii",18,2,3,"3★ 100% on #2 · base gave up 3★"]],"next":{"kind":"cwl","round":4,"opp":"Royal Clasher","start":"2026-11-06T05:19:43+00:00","size":15,"usTH":{"18":15},"oppTH":{"18":15},"usAvg":39.0,"usD":95.1,"usN":2,"oppAvg":40.0,"oppD":95.5,"oppN":2,"lineup":[["Hazey Trees",18,0],["Radii",18,0],["NICK™",18,0],["Agent 33",18,0],["Chase",18,0],["TheMeade",18,0],["Dre",18,0],["mohit",18,0],["joey",18,0],["Red Legion",18,0],["Justin",18,0],["Bailey",18,0],["Back9Chris",18,0],["RKellyPeesOnU",18,0],["Sir Travis",18,0]]},"scout":null,"warLogPublic":false,"cwlLast":{"league":"Champion League II","season":"2026-11-02","place":5,"of":8,"stars":129,"done":2,"final":false,"result":"stayed"},"cwlRates":{"Red Force":2.733,"Touch Grass Inc":2.6,"*Dragon Rider*":3.0,"Canadiens Habs":2.8,"Ecuador unido":2.741,"REAL SEA":2.862,"Royal Clasher":2.667,"這個部落沒有人":2.9},"drill":{"wars":[["CWL R3","Canadiens Habs","live","2026-11-06",1],["CWL R2","*Dragon Rider*","lose","2026-11-05",1],["CWL R1","Red Force","win","2026-11-04",1]],"p":{"3":[[0,1,[[3,100,1]],3],[1,1,[[2,92,1]],3],[2,1,[[2,97,1]],2]],"9":[[0,2,[[3,100,2]],3],[1,2,[[2,83,2]],3],[2,2,[[2,82,2]],3]],"8":[[0,3,[[3,100,3]],3],[1,3,[[2,99,3]],3],[2,3,[[3,100,3]],3]],"5":[[0,4,[[3,100,4]],3],[1,4,[[2,88,4]],3],[2,4,[[2,69,4]],3]],"2":[[0,5,[[2,95,5]],2],[1,5,[[2,80,6]],3],[2,5,[[3,100,5]],2]],"4":[[0,6,[[3,100,6]],3],[1,6,[[3,100,5]],3],[2,6,[[3,100,6]],2]],"14":[[0,7,[[3,100,7]],3],[1,7,[[3,100,7]],3],[2,7,[[3,100,7]],3]],"7":[[0,8,[[3,100,8]],3],[1,8,[[2,90,8]],3],[2,8,[[3,100,8]],3]],"10":[[0,9,[[3,100,9]],3],[1,9,[[3,100,9]],3],[2,9,[[3,100,9]],3]],"19":[[0,10,[[3,100,10]],3],[1,10,[[2,91,10]],3],[2,10,[[3,100,10]],3]],"0":[[0,11,[[3,100,11]],1],[1,11,[[2,87,11]],3],[2,11,[[3,100,11]],1]],"20":[[0,12,[[3,100,12]],3],[1,12,[[2,94,12]],3],[2,12,[[3,100,12]],3]],"6":[[0,13,[[3,100,13]],3],[1,13,[[3,100,13]],3],[2,13,[[3,100,13]],3]],"1":[[0,14,[[3,100,14]],3],[1,14,[[3,100,14]],3],[2,14,[[3,100,14]],2]],"11":[[0,15,[],1],[1,15,[[3,100,15]],3],[2,15,[[3,100,15]],3]]}},"don":{"year":2026,"since":"2026-11-04T11:40:09+00:00","rows":[["Justin",558,545],["RKellyPeesOnU",1676,710],["Chase",765,1121],["Hazey Trees",700,1263],["TheMeade",384,578],["Agent 33",321,700],["Back9Chris",0,232],["mohit",433,799],["NICK™",173,0],["Radii",556,578],["joey",292,287],["Sir Travis",501,87],["Quinten",0,0],["thapunisher2.0",143,0],["Dre",435,718],["Ddawg",179,116],["SyoKiri",0,0],["Greek Enigma",55,0],["coow",532,0],["Red Legion",207,174],["Bailey",0,59],["chefspecialbruh",0,0],["ADP123",0,0],["⚠TS_#2 Kawhi✋⚠",262,314],["Lord S Cummins",0,0],["⚠TS Nazer⚠",172,0],["⊱3✯Ev⊰",0,0]]},"regularTracked":0,"updated":"Nov 5, 9:15 PM CT","updatedISO":"2026-11-06T03:15:06+00:00","cwlOdds":{"sims":10000,"promo":{"Red Force":23.2,"Royal Clasher":1.4,"*Dragon Rider*":90.2,"Ecuador unido":0.0,"Touch Grass Inc":6.9,"Canadiens Habs":2.0,"REAL SEA":23.7,"這個部落沒有人":52.6},"demote":{"Red Force":4.0,"Royal Clasher":45.5,"*Dragon Rider*":0.0,"Ecuador unido":95.4,"Touch Grass Inc":18.0,"Canadiens Habs":31.9,"REAL SEA":4.4,"這個部落沒有人":0.9},"avgRank":{"Red Force":3.74,"Royal Clasher":6.01,"*Dragon Rider*":1.4,"Ecuador unido":7.78,"Touch Grass Inc":4.97,"Canadiens Habs":5.67,"REAL SEA":3.73,"這個部落沒有人":2.7},"liveWin":{"Red Force|Royal Clasher":100.0,"*Dragon Rider*|Ecuador unido":100.0,"Touch Grass Inc|Canadiens Habs":100.0,"REAL SEA|這個部落沒有人":0.0},"meWars":[{"round":3,"opp":"Canadiens Habs","live":true,"pWin":100.0,"promoIfWin":6.9,"promoIfLoss":null},{"round":4,"opp":"Royal Clasher","live":false,"pWin":46.4,"promoIfWin":12.1,"promoIfLoss":2.3}],"unknownRounds":3,"promoteSpots":2,"demoteSpots":2},"status":{"api":"ok","checked":"2026-11-06T03:15:17+00:00","parts":{"cwl":"ok","war":"ok"}}};
 let state = structuredClone(SNAPSHOT);
 const LINEUP_SIZE = 30, BUBBLE_SIZE = 5, UNLOCK_WARS = 10, MIN_WARS = 3;
 const ME_TAGNAME = "";
@@ -521,7 +523,9 @@ function winP(pu,pt,remU,remT,size,du,dt){ const s=8*size/30, sd=Math.sqrt((s*re
 // during CWL, use the season simulator's number so Current War and CWL Tracker always agree
 function cwlP(c){ const L=c&&c.kind==="cwl"&&state.cwlOdds&&state.cwlOdds.liveWin; if(!L) return null;
   const a=L[`${US()}|${c.opp}`], b=L[`${c.opp}|${US()}`]; return a!=null?a/100:b!=null?1-b/100:null; }
-function projWin(uName,oName,pu,pt,du,dt,P){
+function projWin(uName,oName,pu,pt,du,dt,P,dec){
+  if(dec){ const cls=dec==="won"?"good":dec==="lost"?"bad":"mid";
+    return `<div class="proj ${cls}"><span class="pl-l">${dec==="tied"?"Tied on stars":"Result"}</span><b>${dec==="tied"?"Destruction decides":nm(dec==="won"?uName:oName)+" wins"}</b><span class="pl-s">Decided · projected final ${pu}–${pt}</span></div>`; }
   if(P!=null){ const us=P>=0.5, pc=Math.round(Math.max(P,1-P)*100), cls=pc<60?"mid":us?"good":"bad";
     return `<div class="proj ${cls}"><span class="pl-l">Projected winner</span><b>${nm(us?uName:oName)}</b><span class="pl-s">${pu}–${pt} · ${pc}% to win</span></div>`; }
 
@@ -563,8 +567,8 @@ function renderWar(){
   el.innerHTML=`<div class="war-h"><div><div class="label">vs ${nm(c.opp)}</div><div class="score num">${c.us.s}<span>–</span>${c.them.s}</div></div><span class="note num">${c.us.d.toFixed(1)}% vs ${c.them.d.toFixed(1)}%</span></div>
     <div class="pips" style="--n:${total}" role="img" aria-label="${used} of ${total} attacks used">${pips}</div>
     <div class="mini3"><div><span class="label">Our attacks</span><b class="num">${used}/${total}</b><small>${c.usAvgAtk!=null?(+c.usAvgAtk).toFixed(2)+"★ avg":used?(c.us.s/used).toFixed(2)+"★ avg":"–"}</small></div><div><span class="label">Their attacks</span><b class="num">${themUsed}/${total}</b><small>${c.themAvgAtk!=null?(+c.themAvgAtk).toFixed(2)+"★ avg":themUsed?(c.them.s/themUsed).toFixed(2)+"★ avg":"–"}</small></div><div><span class="label">Projected</span><b class="num">${pu}–${pt}</b></div></div>
-    ${projWin(US(),c.opp,pu,pt,c.us.d,c.them.d,cwlP(c)??winP(pu,pt,Math.max(0,total-used)/total,Math.max(0,total-themUsed)/total,c.size,c.us.d,c.them.d))}
-    ${pend.length?`<div class="label">Still to attack (${pend.length})</div><div class="chips">${(window.pendAll?pend:pend.slice(0,5)).map(p=>`<span class="chip"><span>${pl(p.n)}</span><small>TH${esc(p.th)}${p.left>1?' · x'+p.left:''}</small></span>`).join("")}${pend.length>5?`<button type="button" class="chip more-chip" data-pend-toggle aria-expanded="${!!window.pendAll}">${window.pendAll?"show less":"See all "+pend.length}</button>`:""}</div>`:`<div class="good" style="font-weight:600">Everyone's in 🫡</div>`}`;
+    ${projWin(US(),c.opp,pu,pt,c.us.d,c.them.d,cwlP(c)??winP(pu,pt,Math.max(0,total-used)/total,Math.max(0,total-themUsed)/total,c.size,c.us.d,c.them.d),decided(c.us.s,c.them.s,Math.max(0,total-used),Math.max(0,total-themUsed),Math.max(0,total-used)*3))}
+    ${pend.length?`<div class="label">Still to attack (${pend.length})</div><div class="chips">${(window.pendAll?pend:pend.slice(0,5)).map(p=>`<span class="chip"><span>${pl(p.n)}</span><small>TH${esc(p.th)}${p.left>1?' · x'+p.left:''}</small></span>`).join("")}${pend.length>5?`<button type="button" class="chip more-chip" data-pend-toggle aria-expanded="${!!window.pendAll}">${window.pendAll?"show less":"See all "+pend.length}</button>`:""}</div>`:`<div class="good" style="font-weight:600">All attacks used</div>`}`;
 }
 /* ---------- keys to victory: plain-language callouts from the numbers ---------- */
 function thEdge(us,them){
@@ -576,45 +580,48 @@ function thEdge(us,them){
   const avg=(cnt(us)&&cnt(them))?tot(us)/cnt(us)-tot(them)/cnt(them):0;
   return {top,u,t,gap:t-u,avg};
 }
-function thKey(e,opp,when){
-  if(!e||(!e.gap&&Math.abs(e.avg)<0.1)) return e?{cls:"",ic:"⚖️",h:"Even matchup on paper.",p:`Both sides bring ${e.u} TH${e.top}s${when}. Execution decides this one, not Town Halls.`}:null;
-  if(e.gap>0&&e.gap<=2) return {cls:"warn",ic:"⚖️",h:`Slightly heavier on their side: ${e.t} TH${e.top}s vs our ${e.u}${when}.`,
-    p:`Only ${e.gap} more max Town Hall${e.gap===1?"":"s"}, so it's close to even. Clean triples from our TH${e.top}s keep it that way.`};
-  if(e.gap<0&&e.gap>=-2) return {cls:"",ic:"⚖️",h:`Slightly heavier on our side: ${e.u} TH${e.top}s vs their ${e.t}${when}.`,
-    p:`Only ${-e.gap} more max Town Hall${e.gap===-1?"":"s"}, so it's close to even. Don't count on the edge, just get every attack in.`};
-  if(e.gap>0) return {cls:"bad",ic:"⚠️",h:`They're heavier: ${e.t} TH${e.top}s vs our ${e.u}${when}.`,
-    p:`That's ${e.gap} more max Town Halls than us. Our lower Town Halls will be hitting up into TH${e.top}s, so a safe 2★ beats a failed triple. Our TH${e.top}s need to land triples on their mirrors to stay even.`};
-  return {cls:"good",ic:"💪",h:`We're heavier: ${e.u} TH${e.top}s vs their ${e.t}${when}.`,
-    p:`We have ${-e.gap} more max Town Halls. Our top end should clean up their lower bases for triples. Don't waste attacks hitting down twice.`};
+function thKey(e){
+  if(!e) return null;
+  const T=n=>`TH${e.top}${n===1?"":"s"}`;
+  if(!e.gap&&Math.abs(e.avg)<0.1) return {cls:"",ic:"",h:"Even Town Hall matchup.",p:`Both sides have ${e.u} ${T(e.u)}.`};
+  if(!e.gap) return {cls:"",ic:"",h:`Same number of ${T(2)} (${e.u} each).`,p:e.avg>0?"Our lower Town Halls are slightly higher on average.":"Their lower Town Halls are slightly higher on average."};
+  if(e.gap>0&&e.gap<=2) return {cls:"warn",ic:"",h:`They have slightly more ${T(2)}: ${e.t} vs our ${e.u}.`,p:`Close to even. Triples from our ${T(2)} keep it that way.`};
+  if(e.gap<0&&e.gap>=-2) return {cls:"",ic:"",h:`We have slightly more ${T(2)}: ${e.u} vs their ${e.t}.`,p:"Close to even."};
+  if(e.gap>0) return {cls:"bad",ic:"⚠️",h:`They have more ${T(2)}: ${e.t} vs our ${e.u}.`,
+    p:`Our lower Town Halls will be attacking up into ${T(2)}, where a safe 2★ is worth more than a failed triple. Our ${T(2)} need triples on their mirrors to stay even.`};
+  return {cls:"good",ic:"",h:`We have more ${T(2)}: ${e.u} vs their ${e.t}.`,
+    p:"Our top attackers can take their lower bases for triples. Avoid spending two attacks on the same lower base."};
 }
 function renderKeys(){
   const c=state.current, sc=state.scout, nx=state.next, keys=[], nkeys=[];
-  const opp=c?c.opp:(nx?nx.opp:"");
   if(c){
-    keys.push(thKey(thEdge(c.usTH,c.oppTH),c.opp,""));
+    keys.push(thKey(thEdge(c.usTH,c.oppTH)));
     if(c.state==="inWar"){
-      const total=c.size*c.apm, used=c.us.a??0, tu=c.them.a??0, cap=c.size*3;
-      const [pp1,pp2]=projPair(c), m=pp1-pp2, left=c.attacksLeft??0;
-      if(left) keys.push({cls:left>=5?"warn":"",ic:"⏳",h:`${left} attack${left===1?"":"s"} still out, ${eta(c.end)} left.`,p:m<0?`We're projected to lose by about ${-m}★. Those attacks are the comeback.`:Math.abs(m)<3?`It's projected within 3★, so those attacks decide it.`:`We're projected ahead by about ${m}★. Getting every attack in locks it.`});
-      else keys.push({cls:"good",ic:"🫡",h:"Every attack is in.",p:`Nothing left to do but watch their remaining hits.`});
-      if(Math.abs(c.us.s-c.them.s)<=2) keys.push({cls:"warn",ic:"🎯",h:"Stars are close, so destruction is the tiebreaker.",p:`We're at ${c.us.d.toFixed(1)}% vs their ${c.them.d.toFixed(1)}%. Even a failed attack should push for max %.`});
+      const total=c.size*c.apm, left=c.attacksLeft??0, tLeft=Math.max(0,total-(c.them.a??0));
+      const [pp1,pp2]=projPair(c), m=pp1-pp2, dec=decided(c.us.s,c.them.s,left,tLeft,left*3), more=`${left} attack${left===1?"":"s"} left`;
+      if(dec==="won") keys.push({cls:"good",ic:"",h:`War won: ${c.us.s}–${c.them.s} and they have no attacks left.`,p:left?`Our ${more} can still add stars and destruction.`:"Both sides are done."});
+      else if(dec==="lost") keys.push({cls:"bad",ic:"",h:`The war can't be won: ${c.us.s}–${c.them.s}.`,p:left?`Our ${more} can still add stars and destruction.`:"Both sides are done."});
+      else if(dec==="tied") keys.push({cls:"warn",ic:"",h:`Tied on stars at ${c.us.s}–${c.them.s}.`,p:`Destruction decides it: ${c.us.d.toFixed(1)}% vs ${c.them.d.toFixed(1)}%.`});
+      else if(left) keys.push({cls:left>=5?"warn":"",ic:"",h:`${more}, ${eta(c.end)} to go.`,p:m<0?`Projected to lose by about ${-m}★.`:m===0?"Projected tied on stars, so destruction decides it.":m<3?`Projected to win by about ${m}★, close enough to flip.`:`Projected to win by about ${m}★ if every attack is used.`});
+      else keys.push({cls:"",ic:"",h:"All of our attacks are used.",p:`They have ${tLeft} attack${tLeft===1?"":"s"} left, which decide${tLeft===1?"s":""} the final score.`});
+      if(!dec&&Math.abs(c.us.s-c.them.s)<=2) keys.push({cls:"warn",ic:"",h:"Stars are close, so destruction may decide it.",p:`We're at ${c.us.d.toFixed(1)}% vs their ${c.them.d.toFixed(1)}%. Every attack should still go for max destruction.`});
     }
   }
   if(sc&&c&&c.state==="preparation"){
     if(sc.usAvg!=null&&sc.oppAvg!=null){ const m=sc.usAvg-sc.oppAvg;
-      keys.push({cls:m<=-3?"bad":Math.abs(m)<3?"warn":"good",ic:"📊",h:Math.abs(m)<3?"Recent form says coin flip.":m>0?`Recent form favors us by ~${Math.round(m)}★.`:`Recent form favors them by ~${Math.round(-m)}★.`,p:`Based on each side's last 10 wars, scaled to ${sc.size}v${sc.size}. Rough read only.`}); }
+      keys.push({cls:m<=-3?"bad":Math.abs(m)<3?"warn":"good",ic:"",h:Math.abs(m)<3?"Recent form is even.":m>0?`Recent form favors us by about ${Math.round(m)}★.`:`Recent form favors them by about ${Math.round(-m)}★.`,p:`Based on each side's last 10 wars, scaled to ${sc.size}v${sc.size}. Rough estimate.`}); }
     if(!sc.public) keys.push({cls:"",ic:"🔒",h:"Their war log is private.",p:"No star history to go on, so scout their bases in-game before attacking."});
-    if((sc.streak||0)>=5) keys.push({cls:"warn",ic:"🔥",h:`They're on a ${sc.streak}-war win streak.`,p:"Don't sleep on them."});
+    if((sc.streak||0)>=5) keys.push({cls:"warn",ic:"",h:`They're on a ${sc.streak}-war win streak.`,p:"Strong recent form."});
   }
   if(nx&&nx.kind==="cwl"&&!(c&&c.state==="preparation"&&c.opp===nx.opp)){
-    nkeys.push(thKey(thEdge(nx.usTH,nx.oppTH),nx.opp,` (R${nx.round} vs ${nx.opp})`));
+    nkeys.push(thKey(thEdge(nx.usTH,nx.oppTH)));
     const miss=(nx.lineup||[]).filter(x=>x[2]>0);
-    if(miss.length) nkeys.push({cls:"warn",ic:"📣",h:`${miss.length} player${miss.length===1?"":"s"} in the R${nx.round} lineup missed an attack this CWL.`,p:`${miss.map(x=>x[0]).join(", ")}. Worth a ping before battle day.`});
+    if(miss.length) nkeys.push({cls:"warn",ic:"",h:`${miss.length} player${miss.length===1?" in the R"+nx.round+" lineup has":"s in the R"+nx.round+" lineup have"} missed an attack this CWL.`,p:`${miss.map(x=>x[0]).join(", ")}.`});
   }
   const list=keys.filter(Boolean), nlist=nkeys.filter(Boolean), sec=$("keys-sec");
   if(!list.length&&!nlist.length){ sec.hidden=true; return; }
   sec.hidden=false;
-  const card=k=>`<div class="key ${k.cls}"><span class="ic" aria-hidden="true">${k.ic}</span><div><b>${esc(k.h)}</b> <span class="note" style="color:var(--ink)">${esc(k.p)}</span></div></div>`;
+  const card=k=>`<div class="key ${k.cls}${k.ic?"":" noic"}">${k.ic?`<span class="ic" aria-hidden="true">${k.ic}</span>`:""}<div><b>${esc(k.h)}</b> <span class="note" style="color:var(--ink)">${esc(k.p)}</span></div></div>`;
   $("keys-note").textContent=`${list.length+nlist.length} key${list.length+nlist.length===1?"":"s"}`;
   $("keys-this-g").hidden=!list.length; $("keys-this").innerHTML=list.map(card).join("");
   $("keys-next-g").hidden=!nlist.length; $("keys-next").innerHTML=nlist.map(card).join("");
@@ -622,32 +629,40 @@ function renderKeys(){
 }
 /* ---------- path to victory: who matters most for the win ---------- */
 /* ---------- war game: who needs to deliver on offense + what our defense has to hold ---------- */
-function warGame(c,plan,need,link){
+function decided(us,them,usLeft,themLeft,usMax){
+  if(!themLeft&&us>them) return "won";
+  if(!usLeft&&them>us) return "lost";
+  if(!themLeft&&us+usMax<them) return "lost";
+  if(!usLeft&&!themLeft&&us===them) return "tied";
+  return null; }
+function warGame(c,plan,need,link,dec){
   const L=[], uniq=a=>[...new Map(a.map(p=>[p.h.n,p])).values()];
   const names=(a,max=5)=>a.slice(0,max).map(p=>link(p.h.n)).join(", ")+(a.length>max?` +${a.length-max} more`:"");
-  const fresh=plan.filter(p=>p.b&&p.b.gain>=2);
-  const closers=uniq(fresh.filter(p=>(p.h.tri??-1)>=70)), cN=new Set(closers.map(p=>p.h.n));
-  const swing=uniq(fresh.filter(p=>!cN.has(p.h.n)&&(p.h.tri==null||p.h.tri>=35))), sN=new Set(swing.map(p=>p.h.n));
-  const safe=uniq(plan.filter(p=>!cN.has(p.h.n)&&!sN.has(p.h.n)));
-  const exp=fresh.filter(p=>cN.has(p.h.n)).reduce((x,p)=>x+p.b.gain-(1-p.h.tri/100),0)+plan.filter(p=>!cN.has(p.h.n)).length*1.5;
-  const k=Math.max(1,Math.min(swing.length,Math.ceil(Math.max(0,need-exp)/1.5)));
-  if(closers.length) L.push(["🎯",`<b>Usual closers need to keep tripling:</b> ${names(closers)}.`]);
-  if(swing.length) L.push(["⚡",need===0?`<b>A 3★ or two from</b> ${names(swing)} puts it away.`:need<=exp?`<b>Insurance 3★s from</b> ${names(swing)}. If the closers deliver, these lock it.`:`<b>We need ${k===1?"a 3★":"about "+k+" 3★s"} from</b> ${names(swing)}.`]);
-  if(safe.length) L.push(["🛟",`<b>Safe 2★, no wasted hits:</b> ${names(safe)}.`]);
+  if(!dec){
+    const fresh=plan.filter(p=>p.b&&p.b.gain>=2);
+    const closers=uniq(fresh.filter(p=>(p.h.tri??-1)>=70)), cN=new Set(closers.map(p=>p.h.n));
+    const swing=uniq(fresh.filter(p=>!cN.has(p.h.n)&&(p.h.tri==null||p.h.tri>=35))), sN=new Set(swing.map(p=>p.h.n));
+    const safe=uniq(plan.filter(p=>!cN.has(p.h.n)&&!sN.has(p.h.n)));
+    const exp=fresh.filter(p=>cN.has(p.h.n)).reduce((x,p)=>x+p.b.gain-(1-p.h.tri/100),0)+plan.filter(p=>!cN.has(p.h.n)).length*1.5;
+    const k=Math.max(1,Math.min(swing.length,Math.ceil(Math.max(0,need-exp)/1.5)));
+    if(closers.length) L.push(`<b>Reliable triplers still to attack:</b> ${names(closers)}.`);
+    if(swing.length) L.push(need===0?`<b>Extra triples possible from</b> ${names(swing)}.`:need<=exp?`<b>Backup triples if others miss:</b> ${names(swing)}.`:`<b>About ${k} more triple${k===1?"":"s"} needed from</b> ${names(swing)}.`);
+    if(safe.length) L.push(`<b>Aim for a safe 2★:</b> ${names(safe)}.`);
+  }
   const ob=c.ourBases||[], ol=c.oppLeft||[];
   if(ob.length){
     const tl=ol.reduce((x,o)=>x+o[2],0), top=(a,n)=>a.sort((x,y)=>y-x).slice(0,n).reduce((x,y)=>x+y,0);
-    const hold=c.them.s+top(ob.map(b=>Math.max(0,2-b[3])),tl), worst=c.them.s+top(ob.map(b=>3-b[3]),tl);
-    if(!tl) L.push(["🛡️",`<b>They're out of attacks.</b> Their total is locked at ${c.them.s}★. `+(c.us.s>c.them.s?"We're ahead, so this one is ours.":`We need ${c.them.s+1-c.us.s}★ more to win.`)]);
+    const hold=c.them.s+top(ob.map(b=>Math.max(0,2-b[3])),tl), worst=c.them.s+top(ob.map(b=>3-b[3]),tl), diff=c.us.s-c.them.s;
+    if(!tl) L.push(`<b>They have no attacks left</b> and finish at ${c.them.s}★. `+(diff>0?`We lead ${c.us.s}–${c.them.s}, so the war is won.`:diff===0?(dec==="tied"?"Stars are tied, so destruction decides it.":"Stars are tied, so 1★ more wins it."):`We need ${1-diff}★ more to win (${-diff}★ ties it, then destruction decides).`));
     else { const th={}; ol.forEach(o=>{ th[o[1]]=(th[o[1]]||0)+o[2]; });
-      const mix=Object.entries(th).sort((a,b)=>b[0]-a[0]).map(([t,n])=>`${n}× TH${t}`).join(", ");
-      L.push(["🛡️",`<b>They have ${tl} attack${tl===1?"":"s"} left</b> (${mix}). Hold them to 2★s and they finish at ${hold}★ (we'd need ${Math.max(0,hold+1-c.us.s)}★ more). If they all triple, ${worst}★.`]); }
+      const mix=Object.entries(th).sort((a,b)=>b[0]-a[0]).map(([t,n])=>`${n}× TH${t}`).join(", "), nh=Math.max(0,hold+1-c.us.s);
+      L.push(`<b>They have ${tl} attack${tl===1?"":"s"} left</b> (${mix}). Held to 2★ each, they finish at ${hold}★${nh?` and we need ${nh}★ more to pass that`:" and we stay ahead"}. If ${tl===1?"it triples":"every one triples"}, they reach ${worst}★.`); }
     const untested=ob.filter(b=>!b[4]), walls=ob.filter(b=>b[4]&&b[3]<=1);
     const bn=a=>a.slice(0,6).map(b=>`${link(b[1])} <span class="note">#${b[0]}</span>`).join(", ")+(a.length>6?` +${a.length-6} more`:"");
-    if(tl&&untested.length) L.push(["🧱",`<b>Still untested, these need to hold:</b> ${bn(untested)}.`]);
-    if(walls.length) L.push(["🏰",`<b>Holding strong:</b> ${walls.slice(0,6).map(b=>`${link(b[1])} <span class="note">#${b[0]} · ${b[3]}★ in ${b[4]} hit${b[4]===1?"":"s"}</span>`).join(", ")}.`]);
+    if(tl&&untested.length) L.push(`<b>Our bases not attacked yet:</b> ${bn(untested)}.`);
+    if(walls.length) L.push(`<b>Best defenses so far:</b> ${walls.slice(0,6).map(b=>`${link(b[1])} <span class="note">#${b[0]} · ${b[3]}★ in ${b[4]} attack${b[4]===1?"":"s"}</span>`).join(", ")}.`);
   }
-  return L.length?`<div class="label" style="margin-top:8px">War game 🎲</div><div class="wg">${L.map(([i,h])=>`<div class="wg-l"><span aria-hidden="true">${i}</span><span>${h}</span></div>`).join("")}</div>`:"";
+  return L.length?`<div class="label" style="margin-top:8px">War game</div><div class="wg">${L.map(h=>`<div class="wg-l noic"><span>${h}</span></div>`).join("")}</div>`:"";
 }
 function renderPath(){
   const c=state.current, sec=$("path-sec"), el=$("path");
@@ -670,10 +685,14 @@ function renderPath(){
   }
   const maxGain=plan.reduce((x,p)=>x+(p.b?p.b.gain:0),0);
   const per=left?need/left:0;
+  const dec=decided(c.us.s,c.them.s,left,Math.max(0,c.size*c.apm-(c.them.a??0)),maxGain);
   let head, cls;
-  if(need===0){ cls="good"; head=`<b>We're on track.</b> Projected to finish ${pu}–${pt}. Use every attack and play it safe: a sure 2★ beats a failed triple.`; }
-  else if(maxGain<need){ cls="bad"; head=`<b>Long shot.</b> We need <b>${need}★</b> more to pass their projected ${pt}, but even if every remaining hit triples its best open base that's only +${maxGain}★. Go for max destruction too, it decides ties.`; }
-  else { cls=per>2.2?"bad":per>1.6?"mid":"good"; head=`<b>We need ${need}★ from ${left} attack${left===1?"":"s"}</b> (about ${per.toFixed(1)}★ per hit) to pass their projected ${pt}. ${onTable}★ still on the table across ${open.length} base${open.length===1?"":"s"} not yet tripled.`; }
+  if(dec==="won"){ cls="good"; head=`<b>War won.</b> ${c.us.s}–${c.them.s} and they have no attacks left. Remaining attacks only add stars and destruction.`; }
+  else if(dec==="lost"){ cls="bad"; head=`<b>The war can't be won.</b> ${c.us.s}–${c.them.s}. Remaining attacks only add stars and destruction.`; }
+  else if(dec==="tied"){ cls="mid"; head=`<b>Tied on stars.</b> ${c.us.s}–${c.them.s}, so destruction decides it.`; }
+  else if(need===0){ cls="good"; head=`<b>On track.</b> Projected to finish ${pu}–${pt}. Use every attack; a safe 2★ is worth more than a failed triple.`; }
+  else if(maxGain<need){ cls="bad"; head=`<b>Unlikely.</b> We need <b>${need}★</b> more to pass their projected ${pt}, but our remaining attacks can add at most ${maxGain}★. Max destruction still matters if stars end tied.`; }
+  else { cls=per>2.2?"bad":per>1.6?"mid":"good"; head=`<b>We need ${need}★ from ${left} attack${left===1?"":"s"}</b> (about ${per.toFixed(1)}★ each) to pass their projected ${pt}. ${onTable}★ still available across ${open.length} base${open.length===1?"":"s"} not yet tripled.`; }
   const rows=plan.slice(0,10).map((p,i)=>{
     const key=p.b&&p.b.gain>=2&&(p.h.tri??0)>=60;
     const tgt=p.b?`→ #${p.b.pos}${p.b.th?" TH"+p.b.th:""} (${p.b.best}★ so far)`:"→ cleanup / max %";
@@ -681,7 +700,7 @@ function renderPath(){
     return `<div class="pv-row ${key?"pv-key":""}"><span class="k">${key?"★":i+1}</span><span class="who">${pl(p.h.n)} <span class="note">TH${esc(p.h.th)}</span><small>${esc(tgt)}${esc(tri)}</small></span><span class="gain">${p.b?"+"+p.b.gain+"★":"%"}</span></div>`;
   }).join("");
   $("path-note").textContent=`${left} attack${left===1?"":"s"} left`;
-  el.innerHTML=`<div class="pv-head ${cls}">${head}</div>${warGame(c,plan,need,pl)}${rows?`<div class="label">Who matters most${plan.length>10?" (top 10)":""}</div><div class="pv-list">${rows}</div><div class="note">★ = key hit: a base worth 2★+ and a hitter who triples often. Suggested targets go strongest hitter to toughest open base they can handle. A guide, not orders.</div>`:""}`;
+  el.innerHTML=`<div class="pv-head ${cls}">${head}</div>${warGame(c,plan,need,pl,dec)}${rows?`<div class="label">Who matters most${plan.length>10?" (top 10)":""}</div><div class="pv-list">${rows}</div><div class="note">★ = key hit: a base worth 2★+ and a hitter who triples often. Suggested targets pair the strongest remaining attackers with the toughest open bases they can handle. Suggestions only.</div>`:""}`;
 }
 /* ---------- war log: our attacks + their attacks on us (newest first), one dropdown with a toggle ---------- */
 window.feedTab=window.feedTab||"atk";
@@ -865,15 +884,15 @@ document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) liveRef
     const s=st.status||{}, checked=s.checked||st.updatedISO, data=st.updatedISO;
     const dataT=data?fmt(data):"earlier";
     // 1) the host PC reached the Clash API but it refused
-    if(s.api==="maintenance"){ show("","🛠️ <b>Clash API is down for maintenance.</b> Showing data from "+dataT+". Updates resume on their own."); return; }
-    if(s.api==="ip"){ show("bad","🔑 <b>Clash API key stopped working.</b> The host's internet IP changed, so the host needs to make a new API key. Showing data from "+dataT+"."); return; }
-    if(s.api==="access"){ show("bad","🔒 <b>Clash API refused the request.</b> The host should check the API key and clan tag. Showing data from "+dataT+"."); return; }
+    if(s.api==="maintenance"){ show("","<b>Clash API is down for maintenance.</b> Showing data from "+dataT+". Updates resume on their own."); return; }
+    if(s.api==="ip"){ show("bad","<b>Clash API key stopped working.</b> The host's internet IP changed, so the host needs to make a new API key. Showing data from "+dataT+"."); return; }
+    if(s.api==="access"){ show("bad","<b>Clash API refused the request.</b> The host should check the API key and clan tag. Showing data from "+dataT+"."); return; }
     // which pull failed and why (keeps the pop-up short: one bracket of detail)
     const PT=s.parts||{}, LB={ok:"OK",timeout:"timed out",network:"couldn't connect",maintenance:"maintenance",ip:"key rejected",access:"access denied",error:"failed"};
     const det=[["cwl","CWL"],["war","War stats"]].filter(([k])=>PT[k]).map(([k,n])=>n+" "+(LB[PT[k]]||PT[k])).join(" · ");
     const at=s.checked?" ("+fmt(s.checked)+")":"";
     if(s.api==="network"||s.api==="error"){ const slow=Object.values(PT).includes("timeout");
-      show("","📡 <b>"+(slow?"Clash API was too slow to answer":"Couldn't reach the Clash API")+" on the last update"+at+".</b>"+(det?" "+det+".":"")+" Retrying every 10 min. Showing data from "+dataT+"."); return; }
+      show("","<b>"+(slow?"Clash API was too slow to answer":"Couldn't reach the Clash API")+" on the last update"+at+".</b>"+(det?" "+det+".":"")+" Retrying every 10 min. Showing data from "+dataT+"."); return; }
     // 2) page itself is old: is newer data waiting on GitHub (GitHub problem) or did the PC stop (host problem)?
     const age=checked?(Date.now()-new Date(checked))/60000:0;
     if(age<=25){ el.hidden=true; return; }
@@ -889,8 +908,8 @@ document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) liveRef
       if(g.ok){ const j=await g.json(); const bad=(j.components||[]).filter(c=>["Pages","Actions"].includes(c.name)&&c.status!=="operational"); if(bad.length) ghNote=" GitHub reports: "+bad.map(c=>c.name+" "+c.status.replace("_"," ")).join(", ")+"."; }
     }catch(e){}
     const ago=age>=90?Math.round(age/60)+" hr":Math.round(age)+" min";
-    if(repoNewer||ghNote) show("","🐙 <b>GitHub is slow to publish right now.</b> Newer data is waiting and will show up on its own."+ghNote+" Page last published "+ago+" ago.");
-    else show("bad","💤 <b>The host PC hasn't updated in "+ago+".</b> It may be off, asleep, or offline. Showing data from "+dataT+".");
+    if(repoNewer||ghNote) show("","<b>GitHub is slow to publish right now.</b> Newer data is waiting and will show up on its own."+ghNote+" Page last published "+ago+" ago.");
+    else show("bad","<b>The host PC hasn't updated in "+ago+".</b> It may be off, asleep, or offline. Showing data from "+dataT+".");
   }
   check(); setInterval(check,120000);
 })();
